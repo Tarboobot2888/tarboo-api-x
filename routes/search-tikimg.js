@@ -1,5 +1,8 @@
 const express = require('express');
-const fetch = require('node-fetch');
+
+// استيراد node-fetch بشكل ديناميكي
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 const router = express.Router();
 
 // API البحث
