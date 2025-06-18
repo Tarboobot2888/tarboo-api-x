@@ -1,0 +1,98 @@
+:root {
+  --primary: #4f46e5;
+  --secondary: #8b5cf6;
+  --accent: #ec4899;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --dark: #0f0a31;
+  --darker: #09061f;
+  --neon-blue: #00f7ff;
+  --neon-pink: #ff00ff;
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom right, var(--darker), var(--dark));
+  color: white;
+}
+
+.glow-title {
+  font-size: 2rem;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px var(--neon-pink); }
+  to { text-shadow: 0 0 20px var(--neon-blue); }
+}
+
+.btn-primary {
+  background: var(--accent);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--accent);
+}
+
+.api-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.api-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+footer {
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+}
+
+.chatbot-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent); }
+  50% { box-shadow: 0 0 10px 5px var(--accent); }
+}
+
+.particle {
+  bottom: -20px;
+}
+
+.neon-border {
+  background-size: 200% 100%;
+  animation: move 4s linear infinite;
+}
+
+@keyframes move {
+  from { background-position: 0 0; }
+  to { background-position: 200% 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.bg-gradient-radial {
+  background-image: radial-gradient(circle at center, var(--secondary), transparent);
+}
+
+.animate-spin-slow {
+  animation: spin 4s linear infinite;
+}

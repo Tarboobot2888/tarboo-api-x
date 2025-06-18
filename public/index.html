@@ -4,33 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TARBOO API</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="brand.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-black text-white min-h-screen flex flex-col">
-  <div id="loader" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-    <div class="text-center space-y-4">
-      <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="logo" class="w-16 h-16 mx-auto animate-bounce rounded-full">
-      <div class="w-40 bg-white bg-opacity-20 h-1 rounded overflow-hidden">
-        <div id="progress" class="bg-purple-500 h-full w-0"></div>
-      </div>
+<body class="min-h-screen flex flex-col">
+  <div id="splash" class="fixed inset-0 flex flex-col items-center justify-center z-50 overflow-hidden">
+    <div class="relative mb-6">
+      <div class="absolute inset-0 rounded-full border-4 border-accent animate-spin-slow"></div>
+      <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="logo" class="w-24 h-24 rounded-full relative">
     </div>
+    <h1 class="glow-title text-4xl font-extrabold mb-2">TARBOO</h1>
+    <p class="mb-4 text-sm opacity-80">منصة بسيطة لاستعراض الواجهات</p>
+    <button id="startBtn" class="btn-primary text-lg">بدء الرحلة</button>
   </div>
-  <header class="text-center py-8 relative">
-    <h1 class="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-      TARBOO API
-    </h1>
-    <div class="absolute top-4 left-4 space-x-2 flex rtl:space-x-reverse">
+  <header class="relative text-center py-16">
+    <div class="absolute inset-0 -z-10 bg-gradient-radial from-primary/30 via-transparent to-transparent"></div>
+    <h1 class="main-title glow-title text-5xl font-extrabold mb-6">TARBOO API</h1>
+    <p class="sub-header mb-6">اكتشف أنواع الواجهات البرمجية بسهولة</p>
+    <div class="absolute top-4 left-4 rtl:left-auto rtl:right-4">
       <button id="themeToggle" class="px-3 py-1 bg-white bg-opacity-20 rounded">ثيم</button>
     </div>
     <div class="mt-4">
       <input id="search" type="text" placeholder="بحث عن نوع..." class="px-3 py-2 w-64 text-black rounded"/>
     </div>
   </header>
-  <main class="flex-1 container mx-auto px-4">
-    <div id="type-container" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+  <main class="flex-1 px-4">
+    <div id="type-container" class="mx-auto max-w-screen-xl grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
     <p id="message" class="text-center py-4"></p>
   </main>
+  <footer class="mt-12 text-center py-8">
+    <div class="footer-logo text-2xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">TARBOO</div>
+    <div class="flex justify-center space-x-4 rtl:space-x-reverse mb-4">
+      <a href="#" class="text-xl hover:text-accent"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="text-xl hover:text-accent"><i class="fab fa-github"></i></a>
+      <a href="#" class="text-xl hover:text-accent"><i class="fab fa-discord"></i></a>
+      <a href="#" class="text-xl hover:text-accent"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="neon-border h-1 bg-gradient-to-r from-neon-pink via-accent to-neon-blue"></div>
+    <p class="text-gray-300 mt-4">جميع الحقوق محفوظة © TARBOO</p>
+  </footer>
   <div class="chatbot-icon fixed bottom-4 left-4 w-14 h-14 rounded-full bg-white flex items-center justify-center cursor-pointer shadow-lg" onclick="toggleChat()">
     <img src="https://c.top4top.io/p_3352185ep0.jpg" class="w-10 h-10 rounded-full" alt="Bot">
   </div>

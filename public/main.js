@@ -1,5 +1,16 @@
-const loader = document.getElementById('loader');
-const progress = document.getElementById('progress');
+const splash = document.getElementById('splash');
+document.body.classList.add('overflow-hidden');
+
+// create moving particles in splash screen
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle absolute bg-white opacity-20 rounded-full';
+  const size = Math.random() * 6 + 4;
+  p.style.width = p.style.height = size + 'px';
+  p.style.left = Math.random() * 100 + '%';
+  splash.appendChild(p);
+  gsap.fromTo(p, { y: 50 }, { y: -window.innerHeight, repeat: -1, duration: Math.random() * 5 + 5, ease: 'none', delay: Math.random() * 5 });
+}
 let theme = localStorage.getItem('theme') || 'dark';
 
 function applyTheme() {
@@ -39,15 +50,25 @@ async function loadTypes() {
     });
   } catch (err) {
     document.getElementById('message').textContent = '❌ حدث خطأ أثناء تحميل البيانات';
-  } finally {
-    gsap.to(progress, { width: '100%', duration: 0.8, onComplete: () => loader.remove() });
   }
 }
-loadTypes();
+
+function startSite() {
+  gsap.to(splash, { opacity: 0, duration: 1, onComplete: () => splash.remove() });
+  document.body.classList.remove('overflow-hidden');
+  loadTypes();
+}
+
+document.getElementById('startBtn').addEventListener('click', startSite);
 
 function toggleChat() {
   const chatContainer = document.getElementById('chat-container');
-  chatContainer.classList.toggle('hidden');
+  if (chatContainer.classList.contains('hidden')) {
+    chatContainer.classList.remove('hidden');
+    gsap.fromTo(chatContainer, { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 });
+  } else {
+    gsap.to(chatContainer, { y: 100, opacity: 0, duration: 0.5, onComplete: () => chatContainer.classList.add('hidden') });
+  }
 }
 
 function handleKeyPress(e) {

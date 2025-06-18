@@ -4,15 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TARBOO API</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="brand.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-black text-white min-h-screen flex flex-col">
-  <header class="py-4 text-center relative">
-    <h1 id="page-title" class="text-3xl font-bold mb-2"></h1>
-    <a href="index.html" class="absolute left-4 top-4 px-3 py-1 bg-white bg-opacity-20 rounded">الرجوع</a>
+<body class="min-h-screen flex flex-col">
+  <header class="relative text-center py-16">
+    <div class="absolute inset-0 -z-10 bg-gradient-radial from-primary/30 via-transparent to-transparent"></div>
+    <h1 id="page-title" class="main-title glow-title text-4xl font-extrabold mb-6"></h1>
+    <a href="index.html" class="absolute left-4 rtl:left-auto rtl:right-4 top-4 px-3 py-1 bg-white bg-opacity-20 rounded">الرجوع</a>
   </header>
-  <main class="flex-1 container mx-auto px-4">
-    <div id="api-container" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+  <main class="flex-1 px-4">
+    <div id="api-container" class="mx-auto max-w-screen-xl grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
   </main>
   <script>
 async function loadAPIs() {
@@ -30,7 +36,7 @@ async function loadAPIs() {
     }
     filtered.forEach(api => {
       const div = document.createElement('div');
-      div.className = 'p-4 bg-white bg-opacity-10 rounded-lg flex flex-col space-y-2';
+      div.className = 'api-card p-4 flex flex-col space-y-2';
       div.innerHTML = `
         <img src="${api.logo || 'https://via.placeholder.com/320'}" class="rounded" alt="${api.name}">
         <h2 class="text-xl font-bold">${api.name}</h2>
@@ -39,6 +45,7 @@ async function loadAPIs() {
       `;
       container.appendChild(div);
     });
+    gsap.from('.api-card', { opacity: 0, y: 50, stagger: 0.1 });
   } catch (err) {
     document.getElementById('api-container').innerHTML = '<p class="text-center col-span-full">خطأ في تحميل البيانات</p>';
   }
