@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARBOO API - نوع API</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #d946ef, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #d946ef;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #d946ef, #0ea5e9);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        .api-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .api-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(217, 70, 239, 0.5);
+            box-shadow: 0 10px 30px rgba(217, 70, 239, 0.2);
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-active {
+            background-color: #10b981;
+        }
+        
+        .status-inactive {
+            background-color: #ef4444;
+        }
+        
+        .copy-button {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .api-card:hover .copy-button {
+            opacity: 1;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #d946ef, #0ea5e9);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+    
+    <!-- Background Video -->
+    <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay loop muted>
+        <source src="https://files.catbox.moe/xob43j.mp4" type="video/mp4">
+    </video>
+    
+    <!-- Background Overlay -->
+    <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 -z-5"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index_modern.html" class="text-white font-bold text-xl">
+                        <i class="fas fa-code mr-2"></i>
+                        TARBOO API
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <button onclick="goBack()" class="px-4 py-2 glass-effect text-white rounded-lg hover-lift">
+                        <i class="fas fa-arrow-right mr-2"></i>
+                        العودة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="relative z-10 pt-20">
+        <!-- Header Section -->
+        <section class="py-16 px-4">
+            <div class="max-w-7xl mx-auto text-center">
+                <div id="type-icon" class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-3xl flex items-center justify-center">
+                    <i class="fas fa-code text-white text-4xl"></i>
+                </div>
+                <h1 id="type-title" class="text-5xl md:text-7xl font-black text-white mb-6">
+                    <span class="text-gradient">نوع API</span>
+                </h1>
+                <p id="type-description" class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    استكشف مجموعة متنوعة من واجهات برمجة التطبيقات المتخصصة
+                </p>
+                <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                    <span id="api-count-badge" class="px-4 py-2 glass-effect text-white rounded-full">
+                        <i class="fas fa-layer-group mr-2"></i>
+                        <span id="total-apis">0</span> API متاحة
+                    </span>
+                    <span class="px-4 py-2 glass-effect text-white rounded-full">
+                        <div class="status-indicator status-active inline-block mr-2"></div>
+                        جميعها نشطة
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Search and Filter Section -->
+        <section class="py-8 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-4 mb-8">
+                    <!-- Search Bar -->
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="ابحث عن API محددة..."
+                            class="w-full px-6 py-4 pl-14 glass-effect text-white placeholder-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                        >
+                        <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    
+                    <!-- Sort Dropdown -->
+                    <div class="relative">
+                        <select id="sort-select" class="px-6 py-4 glass-effect text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer">
+                            <option value="name">ترتيب حسب الاسم</option>
+                            <option value="popularity">ترتيب حسب الشعبية</option>
+                            <option value="recent">الأحدث أولاً</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- APIs Grid Section -->
+        <section class="py-8 px-4">
+            <div class="max-w-7xl mx-auto">
+                <!-- Loading State -->
+                <div id="loading-state" class="text-center py-20">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-white text-xl">جاري تحميل الـ APIs...</p>
+                </div>
+                
+                <!-- APIs Grid -->
+                <div id="apis-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                    <!-- API cards will be inserted here -->
+                </div>
+                
+                <!-- No Results -->
+                <div id="no-results" class="text-center py-20 hidden">
+                    <i class="fas fa-search text-6xl text-gray-400 mb-4"></i>
+                    <p class="text-white text-xl mb-4">لم يتم العثور على نتائج</p>
+                    <button onclick="clearSearch()" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover-lift">
+                        مسح البحث
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- API Details Modal -->
+    <div id="api-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-75" onclick="closeModal()"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="glass-effect rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 id="modal-title" class="text-3xl font-bold text-white"></h3>
+                    <button onclick="closeModal()" class="text-white hover:text-gray-300 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="modal-content" class="space-y-6">
+                    <!-- Modal content will be inserted here -->
+                </div>
+                
+                <div class="flex gap-4 mt-8">
+                    <button id="try-api-btn" class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover-lift">
+                        <i class="fas fa-play mr-2"></i>
+                        جرب الآن
+                    </button>
+                    <button onclick="copyAPIUrl()" class="px-6 py-3 glass-effect text-white rounded-lg hover-lift">
+                        <i class="fas fa-copy mr-2"></i>
+                        نسخ الرابط
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 z-50 px-6 py-3 glass-effect text-white rounded-lg transform translate-y-full transition-transform duration-300">
+        <i class="fas fa-check mr-2"></i>
+        <span id="toast-message">تم النسخ بنجاح!</span>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        // Global variables
+        let allAPIs = [];
+        let filteredAPIs = [];
+        let currentType = '';
+        let selectedAPI = null;
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollProgress();
+            loadTypeFromURL();
+            loadAPIs();
+            initializeSearch();
+            initializeSort();
+        });
+        
+        // Get type from URL parameters
+        function loadTypeFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentType = urlParams.get('type') || 'default';
+            updateTypeHeader();
+        }
+        
+        // Update type header
+        function updateTypeHeader() {
+            const typeTitle = document.getElementById('type-title');
+            const typeIcon = document.getElementById('type-icon');
+            const typeDescription = document.getElementById('type-description');
+            
+            const typeInfo = {
+                'ai': {
+                    title: 'الذكاء الاصطناعي',
+                    icon: 'fas fa-brain',
+                    description: 'واجهات برمجة التطبيقات المدعومة بالذكاء الاصطناعي لمعالجة النصوص والصور والبيانات',
+                    gradient: 'from-purple-500 to-pink-500'
+                },
+                'download': {
+                    title: 'التحميل',
+                    icon: 'fas fa-download',
+                    description: 'أدوات تحميل المحتوى من منصات مختلفة بجودة عالية وسرعة فائقة',
+                    gradient: 'from-blue-500 to-cyan-500'
+                },
+                'search': {
+                    title: 'البحث',
+                    icon: 'fas fa-search',
+                    description: 'محركات بحث متقدمة للعثور على المعلومات والمحتوى بدقة عالية',
+                    gradient: 'from-green-500 to-teal-500'
+                },
+                'tools': {
+                    title: 'الأدوات',
+                    icon: 'fas fa-tools',
+                    description: 'مجموعة متنوعة من الأدوات المفيدة لتطوير التطبيقات والمواقع',
+                    gradient: 'from-yellow-500 to-orange-500'
+                },
+                'image': {
+                    title: 'الصور',
+                    icon: 'fas fa-image',
+                    description: 'أدوات معالجة وتحرير الصور بتقنيات متقدمة',
+                    gradient: 'from-red-500 to-pink-500'
+                },
+                'default': {
+                    title: 'عام',
+                    icon: 'fas fa-code',
+                    description: 'واجهات برمجة تطبيقات متنوعة لاحتياجات مختلفة',
+                    gradient: 'from-indigo-500 to-purple-500'
+                }
+            };
+            
+            const info = typeInfo[currentType.toLowerCase()] || typeInfo['default'];
+            
+            typeTitle.innerHTML = `<span class="text-gradient">${info.title}</span>`;
+            typeIcon.innerHTML = `<i class="${info.icon} text-white text-4xl"></i>`;
+            typeIcon.className = `w-24 h-24 mx-auto mb-6 bg-gradient-to-r ${info.gradient} rounded-3xl flex items-center justify-center`;
+            typeDescription.textContent = info.description;
+        }
+        
+        // Scroll Progress
+        function initializeScrollProgress() {
+            window.addEventListener('scroll', () => {
+                const scrollProgress = document.getElementById('scroll-progress');
+                const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+            });
+        }
+        
+        // Load APIs
+        async function loadAPIs() {
+            try {
+                const response = await fetch('/api/list');
+                const data = await response.json();
+                
+                // Filter APIs by type
+                allAPIs = data.filter(api => api.type === currentType);
+                filteredAPIs = [...allAPIs];
+                
+                // Update API count
+                document.getElementById('total-apis').textContent = allAPIs.length;
+                
+                renderAPIs();
+                
+                // Hide loading state
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('apis-grid').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Error loading APIs:', error);
+                document.getElementById('loading-state').innerHTML = `
+                    <i class="fas fa-exclamation-triangle text-6xl text-red-400 mb-4"></i>
+                    <p class="text-white text-xl">حدث خطأ في تحميل البيانات</p>
+                `;
+            }
+        }
+        
+        // Render APIs
+        function renderAPIs() {
+            const grid = document.getElementById('apis-grid');
+            grid.innerHTML = '';
+            
+            if (filteredAPIs.length === 0) {
+                document.getElementById('apis-grid').classList.add('hidden');
+                document.getElementById('no-results').classList.remove('hidden');
+                return;
+            }
+            
+            document.getElementById('no-results').classList.add('hidden');
+            document.getElementById('apis-grid').classList.remove('hidden');
+            
+            filteredAPIs.forEach((api, index) => {
+                const apiCard = createAPICard(api, index);
+                grid.appendChild(apiCard);
+            });
+        }
+        
+        // Create API Card
+        function createAPICard(api, index) {
+            const card = document.createElement('div');
+            card.className = 'api-card glass-effect rounded-2xl p-6 cursor-pointer group';
+            
+            const statusClass = api.status === 'active' ? 'status-active' : 'status-inactive';
+            const statusText = api.status === 'active' ? 'نشط' : 'غير نشط';
+            
+            card.innerHTML = `
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                            ${api.name || api.endpoint}
+                        </h3>
+                        <p class="text-gray-300 text-sm mb-3 line-clamp-2">
+                            ${api.description || 'وصف غير متوفر'}
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <div class="status-indicator ${statusClass}"></div>
+                        <span class="text-xs text-gray-400">${statusText}</span>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-400">الرابط:</span>
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <code class="text-xs text-purple-300 bg-black bg-opacity-30 px-2 py-1 rounded">
+                                ${api.endpoint}
+                            </code>
+                            <button onclick="copyToClipboard('${api.endpoint}')" class="copy-button text-gray-400 hover:text-white transition-colors">
+                                <i class="fas fa-copy text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    ${api.method ? `
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-400">الطريقة:</span>
+                        <span class="text-xs px-2 py-1 bg-blue-500 bg-opacity-30 text-blue-300 rounded">
+                            ${api.method}
+                        </span>
+                    </div>
+                    ` : ''}
+                    
+                    ${api.parameters && api.parameters.length > 0 ? `
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-400">المعاملات:</span>
+                        <span class="text-xs text-gray-300">
+                            ${api.parameters.length} معاملة
+                        </span>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div class="flex gap-2 mt-4">
+                    <button onclick="openAPIModal('${api.endpoint}')" class="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm rounded-lg hover:opacity-90 transition-opacity">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        التفاصيل
+                    </button>
+                    <button onclick="tryAPI('${api.endpoint}')" class="px-4 py-2 glass-effect text-white text-sm rounded-lg hover-lift">
+                        <i class="fas fa-play mr-2"></i>
+                        جرب
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Search functionality
+        function initializeSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                filteredAPIs = allAPIs.filter(api => 
+                    (api.name && api.name.toLowerCase().includes(query)) ||
+                    (api.endpoint && api.endpoint.toLowerCase().includes(query)) ||
+                    (api.description && api.description.toLowerCase().includes(query))
+                );
+                renderAPIs();
+            });
+        }
+        
+        // Sort functionality
+        function initializeSort() {
+            const sortSelect = document.getElementById('sort-select');
+            sortSelect.addEventListener('change', (e) => {
+                const sortBy = e.target.value;
+                
+                switch(sortBy) {
+                    case 'name':
+                        filteredAPIs.sort((a, b) => (a.name || a.endpoint).localeCompare(b.name || b.endpoint));
+                        break;
+                    case 'popularity':
+                        filteredAPIs.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+                        break;
+                    case 'recent':
+                        filteredAPIs.sort((a, b) => new Date(b.created || 0) - new Date(a.created || 0));
+                        break;
+                }
+                
+                renderAPIs();
+            });
+        }
+        
+        // Open API Modal
+        function openAPIModal(endpoint) {
+            const api = allAPIs.find(a => a.endpoint === endpoint);
+            if (!api) return;
+            
+            selectedAPI = api;
+            const modal = document.getElementById('api-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            
+            modalTitle.textContent = api.name || api.endpoint;
+            
+            modalContent.innerHTML = `
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">الوصف</h4>
+                        <p class="text-gray-300">${api.description || 'وصف غير متوفر'}</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">معلومات الـ API</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="glass-effect rounded-lg p-4">
+                                <span class="text-sm text-gray-400">الرابط</span>
+                                <p class="text-white font-mono text-sm break-all">${api.endpoint}</p>
+                            </div>
+                            ${api.method ? `
+                            <div class="glass-effect rounded-lg p-4">
+                                <span class="text-sm text-gray-400">الطريقة</span>
+                                <p class="text-white">${api.method}</p>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    ${api.parameters && api.parameters.length > 0 ? `
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">المعاملات</h4>
+                        <div class="space-y-2">
+                            ${api.parameters.map(param => `
+                                <div class="glass-effect rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-white font-semibold">${param.name}</span>
+                                        <span class="text-xs px-2 py-1 ${param.required ? 'bg-red-500' : 'bg-gray-500'} bg-opacity-30 text-white rounded">
+                                            ${param.required ? 'مطلوب' : 'اختياري'}
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-300 text-sm">${param.description || 'وصف غير متوفر'}</p>
+                                    ${param.type ? `<p class="text-gray-400 text-xs mt-1">النوع: ${param.type}</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${api.example ? `
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">مثال</h4>
+                        <div class="glass-effect rounded-lg p-4">
+                            <pre class="text-sm text-gray-300 overflow-x-auto"><code>${JSON.stringify(api.example, null, 2)}</code></pre>
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+        }
+        
+        // Close Modal
+        function closeModal() {
+            document.getElementById('api-modal').classList.add('hidden');
+            selectedAPI = null;
+        }
+        
+        // Try API
+        function tryAPI(endpoint) {
+            const fullUrl = window.location.origin + endpoint;
+            window.open(fullUrl, '_blank');
+        }
+        
+        // Copy API URL
+        function copyAPIUrl() {
+            if (selectedAPI) {
+                const fullUrl = window.location.origin + selectedAPI.endpoint;
+                copyToClipboard(fullUrl);
+            }
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('تم نسخ الرابط بنجاح!');
+            }).catch(() => {
+                showToast('فشل في نسخ الرابط');
+            });
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-y-full');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-full');
+            }, 3000);
+        }
+        
+        // Clear search
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            filteredAPIs = [...allAPIs];
+            renderAPIs();
+        }
+        
+        // Go back
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+    
+</body>
+</html>

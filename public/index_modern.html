@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARBOO API - واجهة برمجة التطبيقات المتقدمة</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #d946ef, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #d946ef;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0ea5e9, #d946ef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #d946ef, #0ea5e9);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #d946ef, #0ea5e9);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="text-center">
+            <div class="text-6xl font-black text-white mb-8">
+                <i class="fas fa-code mr-4"></i>
+                TARBOO API
+            </div>
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-white text-xl">جاري تحميل التجربة المتقدمة...</p>
+        </div>
+    </div>
+    
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+    
+    <!-- Background Video -->
+    <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay loop muted>
+        <source src="https://files.catbox.moe/xob43j.mp4" type="video/mp4">
+    </video>
+    
+    <!-- Background Overlay -->
+    <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 -z-5"></div>
+    
+    <!-- Particles Background -->
+    <div id="particles" class="fixed top-0 left-0 w-full h-full -z-5 pointer-events-none"></div>
+    
+    <!-- Main Content -->
+    <main class="relative z-10 min-h-screen">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center px-4">
+            <div class="text-center max-w-6xl mx-auto">
+                <!-- Floating Badge -->
+                <div class="inline-flex items-center px-4 py-2 rounded-full glass-effect text-white text-sm mb-8">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                    جديد: أكثر من 50 API متاحة الآن
+                </div>
+                
+                <!-- Main Title -->
+                <h1 class="text-6xl md:text-8xl font-black text-white mb-6">
+                    <span class="text-gradient">TARBOO</span>
+                    <br>
+                    <span class="text-white">API</span>
+                </h1>
+                
+                <!-- Subtitle -->
+                <p class="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    منصة متقدمة لواجهات برمجة التطبيقات العربية - اكتشف، اختبر، وادمج أقوى الـ APIs في مشاريعك
+                </p>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <button onclick="scrollToAPIs()" class="group px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold rounded-full hover-lift">
+                        <i class="fas fa-rocket mr-2"></i>
+                        استكشف الـ APIs
+                    </button>
+                    <button onclick="openDocumentation()" class="px-8 py-4 glass-effect text-white font-bold rounded-full hover-lift border border-white/20">
+                        <i class="fas fa-book mr-2"></i>
+                        التوثيق
+                    </button>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white" id="api-count">0</div>
+                        <div class="text-gray-300">API متاحة</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white">99.9%</div>
+                        <div class="text-gray-300">وقت التشغيل</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white">24/7</div>
+                        <div class="text-gray-300">دعم فني</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white">مجاني</div>
+                        <div class="text-gray-300">للاستخدام</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- APIs Section -->
+        <section id="apis-section" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <!-- Section Header -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
+                        <span class="text-gradient">اكتشف</span> الـ APIs
+                    </h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                        مجموعة شاملة من واجهات برمجة التطبيقات المتقدمة لتطوير تطبيقاتك ومشاريعك
+                    </p>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto mb-12">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="ابحث عن نوع API..."
+                            class="w-full px-6 py-4 pl-14 glass-effect text-white placeholder-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                        >
+                        <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Loading State -->
+                <div id="loading-state" class="text-center py-20">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p class="text-white text-xl">جاري تحميل الـ APIs...</p>
+                </div>
+                
+                <!-- APIs Grid -->
+                <div id="apis-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 hidden">
+                    <!-- API cards will be inserted here -->
+                </div>
+                
+                <!-- No Results -->
+                <div id="no-results" class="text-center py-20 hidden">
+                    <i class="fas fa-search text-6xl text-gray-400 mb-4"></i>
+                    <p class="text-white text-xl">لم يتم العثور على نتائج</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Enhanced Chatbot -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <!-- Chatbot Icon -->
+        <div id="chatbot-icon" class="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center cursor-pointer shadow-2xl hover-lift">
+            <i class="fas fa-robot text-white text-2xl"></i>
+        </div>
+        
+        <!-- Chat Window -->
+        <div id="chat-window" class="absolute bottom-20 right-0 w-80 h-96 glass-effect rounded-2xl shadow-2xl hidden overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-purple-500 to-blue-500 p-4 text-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-robot mr-2"></i>
+                        <span class="font-bold">Takamura Bot</span>
+                        <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                    </div>
+                    <button id="close-chat" class="text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto h-64 space-y-3">
+                <div class="flex items-start space-x-2 space-x-reverse">
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-robot text-white text-sm"></i>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 max-w-xs">
+                        <p class="text-white text-sm">مرحباً! كيف يمكنني مساعدتك اليوم؟</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="p-4 border-t border-white/10">
+                <div class="flex space-x-2 space-x-reverse">
+                    <input 
+                        type="text" 
+                        id="chat-input"
+                        placeholder="اكتب رسالتك..."
+                        class="flex-1 px-3 py-2 bg-white/10 backdrop-blur-sm text-white placeholder-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                    <button id="send-message" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:opacity-90 transition-opacity">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        // Global variables
+        let allAPIs = [];
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSplashScreen();
+            initializeParticles();
+            initializeScrollProgress();
+            initializeChatbot();
+            loadAPIs();
+            initializeSearch();
+        });
+        
+        // Splash Screen
+        function initializeSplashScreen() {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 1000);
+            }, 3000);
+        }
+        
+        // Particles Animation
+        function initializeParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Scroll Progress
+        function initializeScrollProgress() {
+            window.addEventListener('scroll', () => {
+                const scrollProgress = document.getElementById('scroll-progress');
+                const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+            });
+        }
+        
+        // Load APIs
+        async function loadAPIs() {
+            try {
+                const response = await fetch('/api/list');
+                const data = await response.json();
+                allAPIs = data;
+                
+                // Update API count
+                document.getElementById('api-count').textContent = data.length;
+                animateNumber('api-count', 0, data.length, 2000);
+                
+                // Get unique types
+                const types = [...new Set(data.map(api => api.type || 'default'))];
+                renderAPITypes(types);
+                
+                // Hide loading state
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('apis-grid').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Error loading APIs:', error);
+                document.getElementById('loading-state').innerHTML = `
+                    <i class="fas fa-exclamation-triangle text-6xl text-red-400 mb-4"></i>
+                    <p class="text-white text-xl">حدث خطأ في تحميل البيانات</p>
+                `;
+            }
+        }
+        
+        // Render API Types
+        function renderAPITypes(types) {
+            const grid = document.getElementById('apis-grid');
+            grid.innerHTML = '';
+            
+            types.forEach((type, index) => {
+                const typeCount = allAPIs.filter(api => api.type === type).length;
+                const typeCard = createAPITypeCard(type, typeCount, index);
+                grid.appendChild(typeCard);
+            });
+        }
+        
+        // Create API Type Card
+        function createAPITypeCard(type, count, index) {
+            const card = document.createElement('div');
+            card.className = 'api-type-card glass-effect rounded-2xl p-6 hover-lift cursor-pointer group';
+            
+            const icons = {
+                'ai': 'fas fa-brain',
+                'download': 'fas fa-download',
+                'search': 'fas fa-search',
+                'tools': 'fas fa-tools',
+                'image': 'fas fa-image',
+                'default': 'fas fa-code'
+            };
+            
+            const colors = [
+                'from-purple-500 to-pink-500',
+                'from-blue-500 to-cyan-500',
+                'from-green-500 to-teal-500',
+                'from-yellow-500 to-orange-500',
+                'from-red-500 to-pink-500',
+                'from-indigo-500 to-purple-500'
+            ];
+            
+            const icon = icons[type.toLowerCase()] || icons['default'];
+            const gradient = colors[index % colors.length];
+            
+            card.innerHTML = `
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-r ${gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="${icon} text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                        ${type.toUpperCase()}
+                    </h3>
+                    <p class="text-gray-300 mb-4">${count} API متاحة</p>
+                    <div class="flex items-center justify-center space-x-2 space-x-reverse text-sm text-gray-400">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span>نشط</span>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => {
+                window.location.href = `type_modern.html?type=${type}`;
+            });
+            
+            return card;
+        }
+        
+        // Search Functionality
+        function initializeSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const types = [...new Set(allAPIs.map(api => api.type || 'default'))];
+                const filtered = types.filter(type => 
+                    type.toLowerCase().includes(query)
+                );
+                
+                if (filtered.length === 0) {
+                    document.getElementById('apis-grid').classList.add('hidden');
+                    document.getElementById('no-results').classList.remove('hidden');
+                } else {
+                    document.getElementById('no-results').classList.add('hidden');
+                    document.getElementById('apis-grid').classList.remove('hidden');
+                    renderAPITypes(filtered);
+                }
+            });
+        }
+        
+        // Chatbot Functionality
+        function initializeChatbot() {
+            const chatIcon = document.getElementById('chatbot-icon');
+            const chatWindow = document.getElementById('chat-window');
+            const closeChat = document.getElementById('close-chat');
+            const sendMessage = document.getElementById('send-message');
+            const chatInput = document.getElementById('chat-input');
+            
+            chatIcon.addEventListener('click', () => {
+                chatWindow.classList.toggle('hidden');
+            });
+            
+            closeChat.addEventListener('click', () => {
+                chatWindow.classList.add('hidden');
+            });
+            
+            sendMessage.addEventListener('click', sendChatMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        }
+        
+        // Send Chat Message
+        async function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const messages = document.getElementById('chat-messages');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            // Add typing indicator
+            const typingDiv = addTypingIndicator();
+            
+            try {
+                const prompt = 'You are an intelligent and friendly assistant named Takamura. Your goal is to provide helpful, informative, and friendly responses to users. You respond in a polite and engaging manner, always offering clear and concise answers. You are capable of answering a variety of questions, including general knowledge, troubleshooting, or casual conversation. If a question is unclear, you politely ask for clarification. Always maintain a positive and respectful tone.';
+                const response = await fetch(`/api/ai/cai?prompt=${encodeURIComponent(prompt)}&text=${encodeURIComponent(message)}`);
+                const data = await response.text();
+                
+                // Remove typing indicator
+                typingDiv.remove();
+                
+                // Add bot response
+                addChatMessage(data, 'bot');
+                
+            } catch (error) {
+                typingDiv.remove();
+                addChatMessage('❌ حدث خطأ أثناء الاتصال بالخادم.', 'bot');
+            }
+        }
+        
+        // Add Chat Message
+        function addChatMessage(message, sender) {
+            const messages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex items-start space-x-2 ${sender === 'user' ? 'justify-end space-x-reverse' : ''}`;
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-3 max-w-xs">
+                        <p class="text-white text-sm">${message}</p>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-robot text-white text-sm"></i>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 max-w-xs">
+                        <p class="text-white text-sm">${message}</p>
+                    </div>
+                `;
+            }
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        // Add Typing Indicator
+        function addTypingIndicator() {
+            const messages = document.getElementById('chat-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'flex items-start space-x-2';
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-robot text-white text-sm"></i>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 max-w-xs">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            `;
+            messages.appendChild(typingDiv);
+            messages.scrollTop = messages.scrollHeight;
+            return typingDiv;
+        }
+        
+        // Utility Functions
+        function scrollToAPIs() {
+            document.getElementById('apis-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+        
+        function openDocumentation() {
+            window.open('https://github.com/your-repo/docs', '_blank');
+        }
+        
+        function animateNumber(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = current;
+                if (current === end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+    </script>
+    
+</body>
+</html>
