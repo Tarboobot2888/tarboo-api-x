@@ -4,392 +4,341 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TARBOO API Hub</title>
+    <!-- TailwindCSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
+    <!-- GSAP for Animation -->
     <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+    <link rel="icon" href="https://i.ibb.co/0jQ3ZzG/logo.png">
+    <meta name="theme-color" content="#6d28d9" />
+    <meta name="description" content="منصة TARBOO: أفضل مكان لاكتشاف واستخدام واجهات API عربية متطورة">
     <style>
-        body {
-            font-family: 'Tajawal', 'Cairo', sans-serif;
-            overflow-x: hidden;
-            background-color: #000;
-            color: white;
+        body { font-family: 'Tajawal', 'Cairo', sans-serif; background: #101827; color: #fff; }
+        .particles-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none;}
+        .gradient-text { background: linear-gradient(90deg, #6d28d9 20%, #ec4899 55%, #f59e0b 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;}
+        /* Splash */
+        .splash-screen { position: fixed; inset: 0; background: #101827; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; }
+        .splash-logo { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(145deg, #6d28d9, #ec4899, #f59e0b); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 0 30px #6d28d9cc; }
+        .splash-logo img { width: 82px; height: 82px; border-radius: 50%; border: 3px solid #fff3; }
+        .progress-bar { width: 70%; height: 10px; background: #262a41; border-radius: 10px; overflow: hidden; margin: 20px auto; }
+        .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #ec4899, #f59e0b); border-radius: 10px; transition: width 0.4s;}
+        .fade-out { animation: fadeOutSplash 1s ease forwards; }
+        @keyframes fadeOutSplash { to { opacity: 0; visibility: hidden; } }
+        /* Particles Animation */
+        @keyframes floatUp {
+            0% {transform: translateY(0);}
+            100% {transform: translateY(-100vh);}
         }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+        /* Ripple Effect */
+        .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: ripple-effect 0.5s linear; background: rgba(236, 72, 153, 0.4);}
+        @keyframes ripple-effect {
+          to { transform: scale(2.5); opacity: 0;}
         }
-        .splash-screen {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            color: #fff;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .fade-out {
-            animation: fadeOut 1s ease forwards;
-        }
-        @keyframes fadeOut {
-            to { opacity: 0; visibility: hidden; }
-        }
-        /* أنيميشن التدرج المتحرك */
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        /* زر دخول الموقع - تصميم متحرك */
-        .btn-primary {
-            position: relative;
-            display: inline-block;
-            padding: 12px 36px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 9999px;
-            background: linear-gradient(270deg, #4f46e5, #8b5cf6, #ec4899, #f59e0b);
-            background-size: 800% 800%;
-            animation: gradientMove 8s ease infinite;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.6);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            overflow: hidden;
-        }
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; right: -50%; bottom: -50%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.3), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .btn-primary:hover::before {
-            opacity: 1;
-        }
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.8);
-        }
-        .btn-primary:active {
-            transform: scale(0.95);
-            box-shadow: 0 3px 10px rgba(79, 70, 229, 0.9);
-        }
-        /* زر إرسال الشات - تصميم متحرك */
-        .btn-send {
-            position: relative;
-            display: inline-block;
-            background: linear-gradient(270deg, #10b981, #14b8a6, #06b6d4);
-            background-size: 600% 600%;
-            animation: gradientMove 6s ease infinite;
-            color: #fff;
-            padding: 10px 24px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 9999px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-            overflow: hidden;
-        }
-        .btn-send::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.2);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .btn-send:hover::before {
-            opacity: 1;
-        }
-        .btn-send:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.8);
-        }
-        .btn-send:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.9);
-        }
-        /* زر إغلاق الشات */
-        .btn-close {
-            font-size: 1.5rem;
-            color: white;
-            cursor: pointer;
-            transition: color 0.2s ease, transform 0.2s ease;
-            user-select: none;
-        }
-        .btn-close:hover {
-            color: #f87171;
-            transform: scale(1.3);
-        }
-        /* أزرار أنواع API - تأثير زجاجي مع تدرج متحرك */
-        .api-type-btn {
-            position: relative;
-            display: block;
-            padding: 1.5rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-align: center;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 1rem;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .api-type-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(45deg, rgba(59,130,246,0.5), rgba(139,92,246,0.5), rgba(99,102,241,0.5));
-            background-size: 200% 200%;
-            animation: gradientMove 5s ease infinite;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
-        }
-        .api-type-btn:hover::after {
-            opacity: 1;
-        }
-        .api-type-btn span {
-            position: relative;
-            z-index: 1;
-        }
-        .api-type-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7);
-        }
-        /* صندوق الشات */
-        #chat-container {
-            background: rgba(255 255 255 / 0.1);
-            backdrop-filter: blur(14px);
-            border-radius: 1rem;
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7);
-            color: white;
-        }
-        /* صندوق الرسائل */
-        #chat-messages > div {
-            padding: 0.5rem 1rem;
-            border-radius: 1rem;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-        /* رسائل المستخدم */
-        .user-msg {
-            background: rgba(37,99,235,0.8);
-            margin-left: auto;
-        }
-        /* رسائل الروبوت */
-        .bot-msg {
-            background: rgba(31,41,55,0.8);
-            margin-right: auto;
-        }
-        /* رسالة الخطأ */
-        .error-msg {
-            background: rgba(185,28,28,0.8);
-            margin-right: auto;
-        }
-        /* تحسينات إضافية */
-        .logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 30px rgba(79, 70, 229, 0.7);
-            margin-bottom: 20px;
-        }
-        .glow-title {
-            text-shadow: 0 0 15px #fff, 0 0 30px #4f46e5, 0 0 45px #4f46e5;
-            animation: glow 1.5s infinite alternate;
-        }
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #fff, 0 0 20px #4f46e5; }
-            to { text-shadow: 0 0 20px #fff, 0 0 40px #8b5cf6; }
-        }
-
-        /* شريط تقدم التمرير */
-        #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            width: 0;
-            background: linear-gradient(90deg, #ec4899, #f59e0b);
-            z-index: 50;
-        }
-
-        /* الوضع الفاتح */
-        body.light {
-            background-color: #f8fafc;
-            color: #000;
-        }
-        body.light .overlay { background: rgba(255,255,255,0.6); }
+        /* Tooltip */
+        .tooltip { pointer-events: none; position: absolute; top: -40px; right: 50%; transform: translateX(50%); background: #23263b; color: #fff; padding: 4px 16px; border-radius: 8px; font-size: 0.85rem; opacity: 0; transition: opacity 0.25s;}
+        .api-type-btn:hover .tooltip { opacity: 1;}
+        /* Badges */
+        .badge { font-size: 0.8rem; padding: 2px 10px; border-radius: 9999px; color: #fff; background: linear-gradient(90deg, #ec4899, #f59e0b);}
+        /* Glow titles */
+        .glow-title { text-shadow: 0 0 20px #ec4899, 0 0 40px #6d28d9;}
+        /* Progress Bar (Scroll) */
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 4px; width: 0; background: linear-gradient(90deg,#6d28d9,#ec4899,#f59e0b); z-index: 100;}
+        /* Glass effect */
+        .glass { background: rgba(30,41,59,0.4); backdrop-filter: blur(12px);}
+        /* Light mode */
+        body.light { background: #f8fafc; color: #23263b; }
+        body.light .glass { background: rgba(255,255,255,0.5); }
+        body.light .gradient-text, body.light .badge { background: linear-gradient(90deg, #6d28d9 20%, #ec4899 55%, #f59e0b 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;}
     </style>
 </head>
 <body>
     <div id="scroll-progress"></div>
     <!-- Splash Screen -->
     <div id="splash" class="splash-screen">
-        <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="logo animate-pulse">
-        <h1 class="text-4xl font-bold mb-4 glow-title gradient-text">مرحبًا بك في TARBOO API 🚀</h1>
-        <div id="progress-bar" class="w-2/3 h-2 bg-gray-700 rounded overflow-hidden">
-            <div id="progress" class="h-full w-0 bg-gradient-to-r from-purple-700 via-pink-500 to-yellow-400"></div>
+        <div class="splash-logo animate-pulse">
+            <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" />
         </div>
-        <button onclick="enterSite()" class="btn-primary mt-4"><span>دخول الموقع</span></button>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 glow-title gradient-text">مرحبًا بك في TARBOO API 🚀</h1>
+        <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
+        <button onclick="enterSite()" class="btn-primary mt-4 px-8 py-3 font-bold rounded-full gradient-text shadow-lg" aria-label="دخول الموقع"><span>دخول الموقع</span></button>
     </div>
 
-    <!-- Background Video -->
-    <video class="absolute top-0 left-0 w-full h-full object-cover z-[-2]" autoplay loop muted>
+    <!-- Particles -->
+    <div id="particles-bg" class="particles-bg"></div>
+    <!-- خلفية فيديو (صامتة) -->
+    <video class="fixed top-0 left-0 w-full h-full object-cover z-[-3]" autoplay loop muted>
         <source src="https://files.catbox.moe/5etht6.mp4" type="video/webm" />
     </video>
-    <div class="overlay"></div>
-    <div id="particles-bg" class="particles-bg"></div>
+    <!-- Overlay -->
+    <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 z-[-2]"></div>
 
     <!-- Header -->
-    <header class="fixed top-0 w-full flex justify-between items-center px-6 py-3 bg-white bg-opacity-10 backdrop-blur z-20">
-        <h1 id="main-title" class="text-2xl font-extrabold gradient-text">TARBOO</h1>
-        <nav class="space-x-4 space-x-reverse hidden md:block">
+    <header class="fixed top-0 w-full flex justify-between items-center px-6 py-3 glass z-30 shadow-lg">
+        <div class="flex items-center gap-2 relative">
+            <span class="text-xl font-extrabold gradient-text" id="main-title">TARBOO</span>
+            <span class="absolute -top-3 left-0 badge animate-bounce" style="font-size:0.7rem;">جديد</span>
+        </div>
+        <nav class="space-x-4 space-x-reverse hidden md:flex">
             <a href="#services" class="hover:underline">الخدمات</a>
             <a href="#features" class="hover:underline">المميزات</a>
             <a href="#contact" class="hover:underline">تواصل معنا</a>
         </nav>
-        <button id="theme-toggle" onclick="toggleTheme()" class="btn-send text-sm" aria-label="تغيير الثيم">وضع نهاري</button>
+        <div class="flex items-center gap-2">
+            <button id="theme-toggle" onclick="toggleTheme()" class="btn-send text-sm" aria-label="تغيير الثيم">وضع نهاري</button>
+        </div>
     </header>
 
-    <!-- Container for API types -->
-    <main class="flex flex-col items-center px-4 py-20">
+    <!-- البحث وأنواع APIs -->
+    <main class="flex flex-col items-center px-4 py-28 min-h-screen">
         <div class="flex gap-2 mb-6 w-full max-w-md">
-            <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث..." class="flex-1 p-2 rounded text-black" />
+            <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث عن نوع API..." class="flex-1 p-3 rounded-lg text-black focus:ring-2 focus:ring-pink-400 focus:outline-none shadow" />
         </div>
-        <p id="message" class="text-gray-300 mb-6">جارٍ تحميل البيانات...</p>
-        <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full"></div>
+        <p id="message" class="text-gray-300 mb-6 text-lg">جارٍ تحميل البيانات...</p>
+        <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 gap-7 max-w-3xl w-full"></div>
     </main>
 
     <!-- Chatbot -->
-    <div class="fixed bottom-6 right-6">
-        <div class="chatbot-icon cursor-pointer" onclick="toggleChat()">
-            <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="Bot" class="rounded-full w-14 h-14 shadow-lg" />
+    <div class="fixed bottom-6 right-6 z-50">
+        <div class="chatbot-icon cursor-pointer" onclick="toggleChat()" aria-label="مساعد TARBOO" tabindex="0">
+            <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="Bot" class="rounded-full w-14 h-14 shadow-lg border-2 border-pink-500 hover:scale-110 transition"/>
         </div>
-        <div id="chat-container" class="hidden mt-2 w-80 p-4">
+        <div id="chat-container" class="hidden mt-2 w-80 p-4 glass rounded-2xl shadow-lg">
             <div class="flex justify-between items-center text-white mb-3">
-                <span class="font-bold">💬 TARBOO Bot</span>
-                <button onclick="toggleChat()" class="btn-close">×</button>
+                <span class="font-bold text-lg">💬 TARBOO Bot</span>
+                <button onclick="toggleChat()" class="btn-close" aria-label="إغلاق الشات">×</button>
             </div>
-            <div id="chat-messages" class="h-64 overflow-y-auto space-y-2 mb-2"></div>
+            <div id="chat-messages" class="h-64 overflow-y-auto space-y-2 mb-2 text-right text-sm"></div>
             <div class="flex gap-2">
-                <input id="chat-input" type="text" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)" class="flex-1 p-2 rounded text-black" />
-                <button onclick="sendMessage()" class="btn-send"><span>إرسال</span></button>
+                <input id="chat-input" type="text" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)" class="flex-1 p-2 rounded text-black focus:ring-2 focus:ring-pink-400 focus:outline-none" aria-label="اكتب رسالتك" />
+                <button onclick="sendMessage()" class="btn-send" aria-label="إرسال"><span>إرسال</span></button>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="file.js"></script>
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip hidden"></div>
+
+    <!-- Script -->
     <script>
-        function enterSite() {
-            const splash = document.getElementById("splash");
-            gsap.to(splash, {
-                opacity: 0,
-                duration: 1,
-                ease: "power2.out",
-                onComplete: () => {
-                    splash.style.display = "none";
-                    animatePageIn();
-                },
+    // ========== SPLASH + PARTICLES ========== //
+    function createParticles() {
+        const bg = document.getElementById("particles-bg");
+        for (let i = 0; i < 36; i++) {
+            const p = document.createElement("div");
+            const size = Math.random() * 15 + 10;
+            p.style.position = "absolute";
+            p.style.width = p.style.height = size + "px";
+            p.style.borderRadius = "50%";
+            p.style.background = `rgba(${120+Math.random()*80},${40+Math.random()*60},${210+Math.random()*40},${Math.random()*0.3+0.08})`;
+            p.style.left = Math.random()*100+"vw";
+            p.style.top = Math.random()*100+"vh";
+            p.style.filter = "blur(2px)";
+            p.style.animation = `floatUp ${12+Math.random()*16}s linear infinite`;
+            bg.appendChild(p);
+        }
+    }
+    document.addEventListener("DOMContentLoaded", createParticles);
+
+    function simulateLoading() {
+        const bar = document.getElementById("progress");
+        let p = 0;
+        const int = setInterval(() => {
+            p += 2.2;
+            if (bar) bar.style.width = p + "%";
+            if (p >= 100) clearInterval(int);
+        }, 38);
+    }
+    simulateLoading();
+
+    function enterSite() {
+        const splash = document.getElementById("splash");
+        gsap.to(splash, {
+            opacity: 0, duration: 1, ease: "power2.out",
+            onComplete: () => { splash.style.display = "none"; animatePageIn(); }
+        });
+        // صوت دخول الموقع (اختياري)
+        // new Audio('assets/success.mp3').play();
+    }
+
+    // ========== HEADER PARALLAX ========== //
+    window.addEventListener("scroll", () => {
+        const h = document.querySelector("header");
+        h.style.backdropFilter = `blur(${6 + Math.min(window.scrollY/80,10)}px)`;
+        h.style.background = `rgba(16,24,39,${0.25 + Math.min(window.scrollY/320,0.18)})`;
+    });
+
+    // ========== SCROLL PROGRESS BAR ========== //
+    function initProgressBar() {
+        window.addEventListener("scroll", () => {
+            const s = document.documentElement.scrollTop, d = document.documentElement.scrollHeight - window.innerHeight;
+            const p = (s/d)*100;
+            document.getElementById("scroll-progress").style.width = p + "%";
+        });
+    }
+    initProgressBar();
+
+    // ========== THEME TOGGLE ========== //
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle("light");
+        localStorage.setItem("theme", body.classList.contains("light") ? "light" : "dark");
+        document.getElementById("theme-toggle").textContent = body.classList.contains("light") ? "وضع ليلي" : "وضع نهاري";
+    }
+    // Auto-load theme
+    window.onload = function() {
+        if(localStorage.getItem("theme") === "light") document.body.classList.add("light");
+        document.getElementById("theme-toggle").textContent = document.body.classList.contains("light") ? "وضع ليلي" : "وضع نهاري";
+    };
+
+    // ========== API TYPES LOADING, FILTERING, INTERACTIONS ========== //
+    let allTypes = [], allAPIs = [];
+    async function loadTypes() {
+        try {
+            const res = await fetch("/api/list");
+            const data = await res.json();
+            allAPIs = data;
+            // استخراج الأنواع
+            const typeCounts = {};
+            const recentTypes = {};
+            const now = Date.now();
+            data.forEach(api => {
+                let t = api.type || "افتراضي";
+                typeCounts[t] = (typeCounts[t] || 0) + 1;
+                // جديد إذا خلال 14 يوم
+                if (api.created_at && (now - new Date(api.created_at).getTime())/86400000 < 14) recentTypes[t] = true;
             });
+            allTypes = Object.keys(typeCounts).map(type => ({
+                name: type,
+                count: typeCounts[type],
+                recent: !!recentTypes[type],
+                icon: pickTypeIcon(type)
+            }));
+            renderTypes(allTypes);
+        } catch (err) {
+            document.getElementById("message").innerText = "❌ فشل في تحميل البيانات.";
         }
+    }
 
-        function simulateLoading() {
-            const bar = document.getElementById("progress");
-            let p = 0;
-            const int = setInterval(() => {
-                p += 1;
-                if (bar) bar.style.width = p + "%";
-                if (p >= 100) clearInterval(int);
-            }, 40);
+    function pickTypeIcon(type) {
+        // أيقونة حسب نوع الـAPI (عدل/أضف حسب الأنواع)
+        const icons = {
+            "ذكاء اصطناعي": "fa-brain",
+            "حماية": "fa-lock",
+            "دفع": "fa-money-bill-wave",
+            "صورة": "fa-image",
+            "نص": "fa-file-alt",
+            "أخبار": "fa-newspaper",
+            "صوت": "fa-volume-up",
+            "تحويل": "fa-sync",
+            "ترجمة": "fa-language",
+            "افتراضي": "fa-cubes"
+        };
+        return icons[type] || "fa-cubes";
+    }
+
+    function renderTypes(list) {
+        const container = document.getElementById("type-container");
+        container.innerHTML = "";
+        list.forEach(type => {
+            const el = document.createElement("a");
+            el.className = "api-type-btn glass shadow-xl relative flex flex-col items-center justify-center py-7 px-4 rounded-2xl transition transform hover:scale-105 focus:scale-105 duration-300 group";
+            el.href = `type.html?type=${encodeURIComponent(type.name)}`;
+            el.setAttribute("tabindex","0");
+            el.setAttribute("aria-label",type.name);
+            el.innerHTML = `
+                <span class="tooltip hidden">إضغط لاكتشاف ${type.name} APIs</span>
+                <i class="fa-solid ${type.icon} text-3xl mb-2"></i>
+                <span class="font-bold text-lg gradient-text mb-1">${type.name}</span>
+                <span class="text-xs text-pink-300 mb-2">${type.count} واجهة</span>
+                ${type.recent ? `<span class="badge absolute top-3 left-3 animate-pulse">جديد</span>` : ""}
+            `;
+            // Tooltip
+            el.addEventListener("mouseenter", function(e){
+                const tt = el.querySelector(".tooltip");
+                tt.classList.remove("hidden");
+            });
+            el.addEventListener("mouseleave", function(e){
+                const tt = el.querySelector(".tooltip");
+                tt.classList.add("hidden");
+            });
+            // Ripple
+            el.addEventListener("click", function(e){
+                const ripple = document.createElement("span");
+                ripple.className = "ripple";
+                ripple.style.right = (e.offsetX)+"px";
+                ripple.style.top = (e.offsetY)+"px";
+                el.appendChild(ripple);
+                setTimeout(()=>{ripple.remove();},600);
+            });
+            container.appendChild(el);
+        });
+        // GSAP stagger in
+        gsap.from(".api-type-btn", { opacity: 0, y: 50, stagger: 0.09, duration: 0.6, ease: "power2.out" });
+    }
+
+    function filterTypes() {
+        const q = document.getElementById("search").value.toLowerCase();
+        const filtered = allTypes.filter(t => t.name.toLowerCase().includes(q));
+        renderTypes(filtered);
+    }
+
+    // ========== CHATBOT ========== //
+    function toggleChat() {
+        const chat = document.getElementById("chat-container");
+        chat.classList.toggle("hidden");
+        if (!chat.classList.contains("hidden")) {
+            gsap.fromTo(chat, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" });
         }
-
-        function toggleChat() {
-            const chat = document.getElementById("chat-container");
-            chat.classList.toggle("hidden");
-            if (!chat.classList.contains("hidden")) {
-                gsap.fromTo(chat, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" });
-            }
-        }
-
-        function handleKeyPress(e) {
-            if (e.key === "Enter") sendMessage();
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById("chat-input");
-            const messages = document.getElementById("chat-messages");
-            const msg = input.value.trim();
-            const prompt = "أنت مساعد ذكي اسمه TARBOO. قدم إجابات واضحة ومهذبة وبأسلوب إيجابي.";
-            if (!msg) return;
-            messages.innerHTML += `<div class='user-msg text-right'><span>${msg}</span></div>`;
-            input.value = "";
+    }
+    function handleKeyPress(e) {
+        if (e.key === "Enter") sendMessage();
+    }
+    async function sendMessage() {
+        const input = document.getElementById("chat-input");
+        const messages = document.getElementById("chat-messages");
+        const msg = input.value.trim();
+        const prompt = "أنت مساعد ذكي اسمه TARBOO. قدم إجابات واضحة ومهذبة وبأسلوب إيجابي.";
+        if (!msg) return;
+        messages.innerHTML += `<div class='user-msg text-right bg-blue-700 px-4 py-2 rounded-xl shadow-md ml-12 mb-1'><span>${msg}</span></div>`;
+        input.value = "";
+        messages.scrollTop = messages.scrollHeight;
+        // Typing indicator
+        const typing = document.createElement("div");
+        typing.className = "bot-msg bg-gray-800 px-4 py-2 rounded-xl shadow-md mr-12 mb-1";
+        typing.innerHTML = `<span><i class="fa fa-spinner fa-spin"></i> جارٍ التفكير...</span>`;
+        messages.appendChild(typing);
+        messages.scrollTop = messages.scrollHeight;
+        try {
+            const res = await fetch(`/api/ai/cai?prompt=${prompt}&text=${encodeURIComponent(msg)}`);
+            const reply = await res.text();
+            typing.remove();
+            messages.innerHTML += `<div class='bot-msg bg-gray-800 px-4 py-2 rounded-xl shadow-md mr-12 mb-1'><span>${reply}</span>
+                <button onclick="rateBot('like',this)" title="مفيد" class="ml-2 text-green-400"><i class="fa fa-thumbs-up"></i></button>
+                <button onclick="rateBot('dislike',this)" title="غير مفيد" class="text-red-400"><i class="fa fa-thumbs-down"></i></button>
+            </div>`;
             messages.scrollTop = messages.scrollHeight;
-            try {
-                const res = await fetch(`/api/ai/cai?prompt=${prompt}&text=${encodeURIComponent(msg)}`);
-                const reply = await res.text();
-                messages.innerHTML += `<div class='bot-msg text-left'><span>${reply}</span></div>`;
-                messages.scrollTop = messages.scrollHeight;
-            } catch {
-                messages.innerHTML += `<div class='error-msg text-left'><span>❌ فشل الاتصال بالخادم</span></div>`;
-            }
+        } catch {
+            typing.remove();
+            messages.innerHTML += `<div class='error-msg bg-red-700 px-4 py-2 rounded-xl shadow-md mr-12 mb-1'><span>❌ فشل الاتصال بالخادم</span></div>`;
         }
+    }
+    function rateBot(type,btn) {
+        btn.parentElement.innerHTML += `<span class="ml-2 text-sm ${type=='like'?'text-green-300':'text-red-300'}">${type=='like'?'شكراً!':'سنعمل على التحسين'}</span>`;
+        btn.parentElement.querySelectorAll('button').forEach(b=>b.remove());
+    }
 
-        async function loadTypes() {
-            try {
-                const res = await fetch("/api/list");
-                const data = await res.json();
-                const container = document.getElementById("type-container");
-                const message = document.getElementById("message");
-                message.style.display = "none";
-                const types = [...new Set(data.map((api) => api.type || "افتراضي"))];
-                types.forEach((type) => {
-                    const el = document.createElement("a");
-                    el.className = "api-type-btn";
-                    el.href = `type.html?type=${encodeURIComponent(type)}`;
-                    el.innerHTML = `<span>${type.toUpperCase()}</span>`;
-                    container.appendChild(el);
-                });
-                gsap.from(".api-type-btn", { opacity: 0, y: 40, stagger: 0.15, duration: 0.6, ease: "power3.out" });
-            } catch (err) {
-                document.getElementById("message").innerText = "❌ فشل في تحميل البيانات.";
-            }
-        }
+    function animatePageIn() {
+        gsap.from("#main-title", { y: -40, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from("main", { opacity: 0, y: 20, duration: 1, delay: 0.3, ease: "power3.out" });
+        gsap.from(".chatbot-icon", { scale: 0, opacity: 0, duration: 0.7, delay: 0.7, ease: "back.out(1.7)" });
+    }
 
-        function animatePageIn() {
-            gsap.from("#main-title", { y: -40, opacity: 0, duration: 1, ease: "power3.out" });
-            gsap.from("main", { opacity: 0, y: 20, duration: 1, delay: 0.3, ease: "power3.out" });
-            gsap.from(".chatbot-icon", { scale: 0, opacity: 0, duration: 0.7, delay: 0.7, ease: "back.out(1.7)" });
-        }
-
-        loadTypes();
-        initProgressBar();
-        simulateLoading();
+    // ========== INIT ========== //
+    loadTypes();
     </script>
 </body>
 </html>
