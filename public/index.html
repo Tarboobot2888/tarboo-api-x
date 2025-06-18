@@ -15,20 +15,43 @@
   <style>
     body {
       font-family: 'Tajawal', 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #0a1120 0%, #6d28d9 100%);
       color: #f8fafc;
       overflow-x: hidden;
       min-height: 100vh;
+      position: relative;
     }
-    /* ------ Splash + Particles ------ */
+    
+    /* ------ خلفية الفيديو والطبقات ------ */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+      object-fit: cover;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 17, 32, 0.85);
+      z-index: -2;
+    }
+    
     .particles-bg {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      z-index: 1;
+      z-index: -1;
       pointer-events: none;
       overflow: hidden;
     }
+    
+    /* ------ Splash + Particles ------ */
     .particle {
       position: absolute;
       border-radius: 50%;
@@ -36,10 +59,12 @@
       opacity: 0.75;
       animation: floatUp 25s linear infinite;
     }
+    
     @keyframes floatUp {
       from { transform: translateY(0);}
       to { transform: translateY(-150vh);}
     }
+    
     .splash-screen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -49,19 +74,23 @@
       justify-content: center; align-items: center;
       transition: opacity 1s, visibility 1s;
     }
+    
     .logo-container {
       position: relative;
       width: 170px; height: 170px; margin-bottom: 2rem;
       display: flex; align-items: center; justify-content: center;
     }
+    
     .logo-circle {
       position: absolute; width: 100%; height: 100%;
       border-radius: 50%; border: 3px solid transparent;
       border-top-color: #6d28d9;
       animation: spin 2s linear infinite;
     }
+    
     .logo-circle:nth-child(2) { border-top-color: #ec4899; animation-duration: 3s;}
     .logo-circle:nth-child(3) { border-top-color: #0ea5e9; animation-duration: 4s;}
+    
     .logo-text {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -72,10 +101,12 @@
       letter-spacing: 2px;
       text-shadow: 0 0 24px #3b0764;
     }
+    
     @keyframes spin {
       0% { transform: rotate(0);}
       100% { transform: rotate(360deg);}
     }
+    
     .progress-bar {
       width: 240px; height: 8px;
       background: rgba(255,255,255,0.13);
@@ -83,12 +114,14 @@
       margin-top: 1.3rem; overflow: hidden;
       box-shadow: 0 0 14px #6d28d9;
     }
+    
     .progress-fill {
       height: 100%; width: 0%;
       background: linear-gradient(90deg, #6d28d9, #ec4899, #fbbf24);
       border-radius: 4px;
       transition: width 0.5s;
     }
+    
     /* ------ Header ------ */
     header {
       padding: 1.3rem 0; position: fixed;
@@ -98,36 +131,46 @@
       border-bottom: 1.5px solid rgba(255,255,255,0.08);
       transition: background 0.3s;
     }
+    
     .header-container {
       max-width: 1240px;
       margin: 0 auto; display: flex; justify-content: space-between; align-items: center;
       padding: 0 2rem;
     }
+    
     .logo {
       font-size: 1.7rem; font-weight: 900;
       color: #fff; letter-spacing: 1.5px;
       display: flex; align-items: center; gap: 4px;
       text-decoration: none;
     }
+    
     .logo span {
       background: linear-gradient(45deg, #6d28d9, #0ea5e9);
       -webkit-background-clip: text; background-clip: text;
       color: transparent;
     }
+    
     .nav-links { display: flex; gap: 1.7rem;}
+    
     .nav-links a {
       color: #f8fafc; font-weight: 500;
       padding: 0.6rem 0;
       position: relative; transition: color 0.2s;
       text-decoration: none;
     }
+    
     .nav-links a:hover, .nav-links a.active { color: #0ea5e9;}
+    
     .nav-links a::after {
       content: ""; position: absolute; bottom: 0; left: 0; height: 2px; width: 0;
       background: #6d28d9; transition: width 0.3s;
     }
+    
     .nav-links a:hover::after, .nav-links a.active::after { width: 100%;}
+    
     .btn-theme { margin-right: 1rem;}
+    
     .btn-theme, .btn-cta {
       font-weight: 700; padding: 8px 26px;
       border-radius: 999px; outline: none; border: none;
@@ -136,7 +179,9 @@
       color: #fff; box-shadow: 0 4px 16px #6d28d9a0;
       transition: box-shadow 0.2s, transform 0.2s;
     }
+    
     .btn-theme:hover, .btn-cta:hover { transform: scale(1.05);}
+    
     /* ------ Micro-interactions ------ */
     .api-type-btn {
       position: relative; display: block;
@@ -149,23 +194,67 @@
       margin-bottom: 12px; box-shadow: 0 4px 24px #0004;
       overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;
     }
+    
     .api-type-btn:hover { transform: scale(1.05); box-shadow: 0 8px 28px #6d28d9b2;}
+    
     .api-type-btn .badge { font-size: 0.75rem; color: #fff; background: #ec4899; border-radius: 9px; padding: 2px 8px; position: absolute; top: 14px; left: 16px;}
+    
     /* Scroll Progress Bar */
     #scroll-progress {
       position: fixed; top: 0; left: 0;
       width: 0; height: 4px; z-index: 120;
       background: linear-gradient(90deg, #6d28d9, #fbbf24);
     }
+    
+    /* تصميم متجاوب */
     @media (max-width: 700px) {
       .header-container { padding: 0 1rem;}
       .logo-container { width: 110px; height: 110px;}
       .logo-text { font-size: 1.4rem;}
       .progress-bar { width: 120px;}
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* تصميم البطاقات */
+    .api-card {
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(109, 40, 217, 0.3);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .api-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(109, 40, 217, 0.3);
+    }
+    
+    /* تأثيرات النص */
+    .glow-text {
+      text-shadow: 0 0 10px rgba(109, 40, 217, 0.7);
     }
   </style>
 </head>
 <body>
+  <!-- خلفية الفيديو -->
+  <video class="video-background" autoplay loop muted playsinline>
+    <source src="https://files.catbox.moe/5etht6.mp4" type="video/webm" />
+  </video>
+  
+  <!-- طبقة التعتيم -->
+  <div class="overlay"></div>
+  
   <!-- خلفية الجسيمات -->
   <div class="particles-bg" id="particles-bg"></div>
 
@@ -187,44 +276,134 @@
 
   <!-- الشريط العلوي -->
   <header>
-    <div class="container header-container">
-      <a href="#" class="logo">TAR<span>BOO</span></a>
+    <div class="header-container">
+      <a href="#" class="logo">
+        <i class="fas fa-code"></i>
+        <span>TARBOO</span> API
+      </a>
+      
       <nav class="nav-links">
-        <a href="#services" class="">الخدمات</a>
-        <a href="#features" class="">المميزات</a>
-        <a href="#contact" class="">تواصل معنا</a>
+        <a href="#" class="active">الرئيسية</a>
+        <a href="#">الواجهات البرمجية</a>
+        <a href="#">التوثيق</a>
+        <a href="#">المجتمع</a>
+        <a href="#">التسعير</a>
       </nav>
-      <button class="btn-theme" id="theme-toggle" aria-label="تغيير الثيم">☀️</button>
-      <button class="btn-cta hidden md:inline-block">جرب الآن</button>
+      
+      <div class="flex items-center">
+        <button id="theme-toggle" class="btn-theme">☀️</button>
+        <button class="btn-cta">ابدأ الآن</button>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- قسم أنواع APIs -->
+  <!-- المحتوى الرئيسي -->
   <main class="flex flex-col items-center px-4 py-28">
-    <div class="flex gap-2 mb-7 w-full max-w-md">
-      <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث عن نوع API ..." class="flex-1 p-3 rounded text-black shadow" />
+    <div class="text-center mb-16 max-w-3xl">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 glow-text">منصة TARBOO للواجهات البرمجية</h1>
+      <p class="text-xl text-gray-200 mb-8">أقوى واجهات برمجية عربية لتطوير تطبيقاتك بسرعة وكفاءة</p>
+      
+      <div class="flex gap-2 mb-7 w-full max-w-md mx-auto">
+        <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث عن نوع API ..." class="flex-1 p-4 rounded-lg text-black shadow-lg bg-white/90" />
+        <button class="btn-cta px-6">
+          <i class="fas fa-search mr-2"></i> بحث
+        </button>
+      </div>
     </div>
-    <p id="message" class="text-gray-300 mb-7">جارٍ تحميل البيانات...</p>
-    <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 gap-7 max-w-3xl w-full"></div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+      <div class="api-card p-6">
+        <div class="text-purple-400 text-3xl mb-4">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2">واجهات سريعة</h3>
+        <p class="text-gray-300">أداء عالي مع زمن استجابة أقل من 100 مللي ثانية</p>
+      </div>
+      
+      <div class="api-card p-6">
+        <div class="text-blue-400 text-3xl mb-4">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2">حماية متقدمة</h3>
+        <p class="text-gray-300">أنظمة أمان متعددة الطبقات لحماية بياناتك</p>
+      </div>
+      
+      <div class="api-card p-6">
+        <div class="text-pink-400 text-3xl mb-4">
+          <i class="fas fa-sync-alt"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2">تحديثات مستمرة</h3>
+        <p class="text-gray-300">تحديثات أسبوعية مع ميزات جديدة وتحسينات</p>
+      </div>
+    </div>
+    
+    <div class="mt-16 w-full max-w-6xl">
+      <h2 class="text-3xl font-bold text-center mb-10 glow-text">أنواع الواجهات البرمجية المتاحة</h2>
+      <p id="message" class="text-gray-300 mb-7 text-center">جارٍ تحميل البيانات...</p>
+      <div id="type-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
   </main>
 
   <!-- Chatbot -->
   <div class="fixed bottom-6 left-6">
     <div class="chatbot-icon cursor-pointer" onclick="toggleChat()">
-      <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="Bot" class="rounded-full w-14 h-14 shadow-lg" />
+      <div class="rounded-full w-14 h-14 shadow-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center">
+        <i class="fas fa-robot text-white text-2xl"></i>
+      </div>
     </div>
-    <div id="chat-container" class="hidden mt-2 w-80 p-4" style="background:rgba(20,20,30,0.93); border-radius:1rem;">
+    <div id="chat-container" class="hidden mt-2 w-80 p-4" style="background:rgba(20,20,30,0.93); border-radius:1rem; border: 1px solid rgba(109,40,217,0.4);">
       <div class="flex justify-between items-center text-white mb-3">
         <span class="font-bold">💬 TARBOO Bot</span>
-        <button onclick="toggleChat()" class="btn-close text-2xl">×</button>
+        <button onclick="toggleChat()" class="btn-close text-2xl text-gray-400 hover:text-white">×</button>
       </div>
-      <div id="chat-messages" class="h-64 overflow-y-auto space-y-2 mb-2"></div>
+      <div id="chat-messages" class="h-64 overflow-y-auto space-y-2 mb-2">
+        <div class="text-left p-2 mb-1 bg-gray-900 rounded-lg">
+          مرحبا! أنا المساعد الذكي لـ TARBOO API Hub. كيف يمكنني مساعدتك اليوم؟
+        </div>
+      </div>
       <div class="flex gap-2">
-        <input id="chat-input" type="text" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)" class="flex-1 p-2 rounded text-black" />
-        <button onclick="sendMessage()" class="btn-theme"><span>إرسال</span></button>
+        <input id="chat-input" type="text" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)" class="flex-1 p-3 rounded-lg text-black bg-white/90" />
+        <button onclick="sendMessage()" class="btn-theme px-4"><i class="fas fa-paper-plane mr-2"></i></button>
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="py-10 px-4 text-center border-t border-gray-800 bg-black/20 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <a href="#" class="logo text-2xl">
+            <i class="fas fa-code"></i>
+            <span>TARBOO</span> API
+          </a>
+          <p class="mt-2 text-gray-400">المنصة العربية المتطورة للواجهات البرمجية</p>
+        </div>
+        
+        <div class="flex gap-6 mb-6 md:mb-0">
+          <a href="#" class="text-gray-300 hover:text-white">
+            <i class="fab fa-twitter text-xl"></i>
+          </a>
+          <a href="#" class="text-gray-300 hover:text-white">
+            <i class="fab fa-github text-xl"></i>
+          </a>
+          <a href="#" class="text-gray-300 hover:text-white">
+            <i class="fab fa-linkedin text-xl"></i>
+          </a>
+          <a href="#" class="text-gray-300 hover:text-white">
+            <i class="fab fa-discord text-xl"></i>
+          </a>
+        </div>
+      </div>
+      
+      <p class="mt-10 text-gray-500 text-sm">
+        © 2023 TARBOO API Hub. جميع الحقوق محفوظة.
+      </p>
+    </div>
+  </footer>
 
   <script>
     // -------------------- جسيمات الخلفية ----------------------
@@ -317,9 +496,36 @@
 
     // -------------------- Animations on page in ----------------------
     function initPageAnimations() {
-      gsap.from(".header-container", { y: -40, opacity: 0, duration: 1, ease: "power3.out" });
-      gsap.from("main", { opacity: 0, y: 20, duration: 1, delay: 0.3, ease: "power3.out" });
-      gsap.from(".chatbot-icon", { scale: 0, opacity: 0, duration: 0.7, delay: 0.8, ease: "back.out(1.7)" });
+      gsap.from("header", { y: -40, opacity: 0, duration: 1, ease: "power3.out" });
+      gsap.from("main h1", { 
+        opacity: 0, 
+        y: 30, 
+        duration: 1, 
+        delay: 0.2,
+        ease: "power3.out" 
+      });
+      gsap.from("main p", { 
+        opacity: 0, 
+        y: 20, 
+        duration: 0.8, 
+        delay: 0.4,
+        ease: "power3.out" 
+      });
+      gsap.from(".api-card", { 
+        opacity: 0, 
+        y: 30, 
+        stagger: 0.2, 
+        duration: 0.8, 
+        delay: 0.6,
+        ease: "power3.out" 
+      });
+      gsap.from(".chatbot-icon", { 
+        scale: 0, 
+        opacity: 0, 
+        duration: 0.7, 
+        delay: 0.8, 
+        ease: "back.out(1.7)" 
+      });
     }
 
     // -------------------- الشات بوت ----------------------
