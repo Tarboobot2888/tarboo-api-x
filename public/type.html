@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TARBOO-API</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
         /* خلفية الصفحة */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
             text-align: center;
             background: linear-gradient(135deg, #0a0027, #22004d, #66008d);
             color: white;
@@ -162,15 +163,20 @@
 <body>
 
     <div id="scroll-progress"></div>
+    <div id="particles-bg" class="particles-bg"></div>
+    <header class="fixed top-0 w-full flex justify-between items-center px-6 py-3 bg-white bg-opacity-10 backdrop-blur z-20">
+        <h1 id="page-title" class="text-2xl font-extrabold gradient-text">TARBOO-API</h1>
+        <button id="theme-toggle" onclick="toggleTheme()" class="btn-send text-sm" aria-label="تغيير الثيم">وضع نهاري</button>
+    </header>
 
-    <h1 id="page-title">TARBOO-API</h1>
-    <div class="flex gap-2 my-4 w-full max-w-md mx-auto">
-        <input id="search" type="text" oninput="filterAPIs()" placeholder="ابحث..." class="flex-1 p-2 rounded text-black" />
-        <button id="theme-toggle" onclick="toggleTheme()" class="btn-send">وضع نهاري</button>
-    </div>
-    <div class="container" id="api-container">
-        <!-- سيتم تحميل الـ APIs هنا -->
-    </div>
+    <main class="pt-20">
+        <div class="flex gap-2 my-4 w-full max-w-md mx-auto">
+            <input id="search" type="text" oninput="filterAPIs()" placeholder="ابحث..." class="flex-1 p-2 rounded text-black" />
+        </div>
+        <div class="container" id="api-container">
+            <!-- سيتم تحميل الـ APIs هنا -->
+        </div>
+    </main>
 
     <script src="file.js"></script>
     <script>
