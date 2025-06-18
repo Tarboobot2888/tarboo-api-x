@@ -1,31 +1,21 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAKAMURA API</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TARBOO API Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        body {
             font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+            background-color: #000;
+            color: white;
         }
-
-        /* فيديو الخلفية */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-
-        /* تغطية داكنة فوق الفيديو لتحسين وضوح النص */
         .overlay {
             position: fixed;
             top: 0;
@@ -35,296 +25,326 @@
             background: rgba(0, 0, 0, 0.6);
             z-index: -1;
         }
-
-        body {
-            color: white;
-            text-align: center;
+        .splash-screen {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            color: #fff;
+            z-index: 9999;
             display: flex;
+            align-items: center;
+            justify-content: center;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            gap: 20px;
         }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
-            border-radius: 8px;
-            backdrop-filter: blur(5px);
+        .fade-out {
+            animation: fadeOut 1s ease forwards;
         }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            max-width: 600px;
-            width: 100%;
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
         }
-
-        /* تصميم بطاقات الأنواع (ستايل زجاجي) */
-        .type-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px 25px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
+        /* أنيميشن التدرج المتحرك */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        /* زر دخول الموقع - تصميم متحرك */
+        .btn-primary {
+            position: relative;
+            display: inline-block;
+            padding: 12px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 9999px;
+            background: linear-gradient(270deg, #4f46e5, #8b5cf6, #ec4899, #f59e0b);
+            background-size: 800% 800%;
+            animation: gradientMove 8s ease infinite;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.3), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.8);
+        }
+        .btn-primary:active {
+            transform: scale(0.95);
+            box-shadow: 0 3px 10px rgba(79, 70, 229, 0.9);
+        }
+        /* زر إرسال الشات - تصميم متحرك */
+        .btn-send {
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(270deg, #10b981, #14b8a6, #06b6d4);
+            background-size: 600% 600%;
+            animation: gradientMove 6s ease infinite;
+            color: #fff;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 9999px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .btn-send::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .btn-send:hover::before {
+            opacity: 1;
+        }
+        .btn-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.8);
+        }
+        .btn-send:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.9);
+        }
+        /* زر إغلاق الشات */
+        .btn-close {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            user-select: none;
+        }
+        .btn-close:hover {
+            color: #f87171;
+            transform: scale(1.3);
+        }
+        /* أزرار أنواع API - تأثير زجاجي مع تدرج متحرك */
+        .api-type-btn {
+            position: relative;
+            display: block;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 1rem;
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
-            min-width: 250px;
-            max-width: 100%;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        /* تأثير عند تحريك الماوس على البطاقة */
-        .type-box:hover {
-            transform: scale(1.1);
-            box-shadow: 4px 6px 15px rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.25);
+        .api-type-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(59,130,246,0.5), rgba(139,92,246,0.5), rgba(99,102,241,0.5));
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
         }
-
-        .message {
-            font-size: 18px;
-            margin-top: 15px;
-            color: #ddd;
+        .api-type-btn:hover::after {
+            opacity: 1;
         }
-        /* زر الأيقونة الدائرية */
-.chatbot-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.chatbot-icon img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.chatbot-icon:hover {
-    transform: scale(1.1);
-}
-
-/* صندوق الدردشة */
-.chatbot-container {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 300px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    display: none;
-    flex-direction: column;
-}
-
-/* الهيدر */
-.chat-header {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-}
-
-.close-chat {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* محتوى الدردشة */
-.chat-body {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    height: 300px;
-    overflow-y: auto;
-}
-
-.chat-messages {
-    flex-grow: 1;
-    max-height: 250px;
-    overflow-y: auto;
-}
-
-.chat-messages div {
-    padding: 8px;
-    margin: 5px;
-    border-radius: 8px;
-    max-width: 80%;
-}
-
-.user-message {
-    background: rgba(0, 123, 255, 0.8);
-    color: white;
-    align-self: flex-end;
-}
-
-.bot-message {
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    align-self: flex-start;
-}
-
-#chat-input {
-    width: calc(100% - 60px);
-    padding: 5px;
-    border: none;
-    border-radius: 5px;
-}
-
-button {
-    width: 50px;
-    padding: 5px;
-    background: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background: #0056b3;
-}
+        .api-type-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        .api-type-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7);
+        }
+        /* صندوق الشات */
+        #chat-container {
+            background: rgba(255 255 255 / 0.1);
+            backdrop-filter: blur(14px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        /* صندوق الرسائل */
+        #chat-messages > div {
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        /* رسائل المستخدم */
+        .user-msg {
+            background: rgba(37,99,235,0.8);
+            margin-left: auto;
+        }
+        /* رسائل الروبوت */
+        .bot-msg {
+            background: rgba(31,41,55,0.8);
+            margin-right: auto;
+        }
+        /* رسالة الخطأ */
+        .error-msg {
+            background: rgba(185,28,28,0.8);
+            margin-right: auto;
+        }
+        /* تحسينات إضافية */
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 30px rgba(79, 70, 229, 0.7);
+            margin-bottom: 20px;
+        }
+        .glow-title {
+            text-shadow: 0 0 15px #fff, 0 0 30px #4f46e5, 0 0 45px #4f46e5;
+            animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #4f46e5; }
+            to { text-shadow: 0 0 20px #fff, 0 0 40px #8b5cf6; }
+        }
     </style>
 </head>
 <body>
-
-    <!-- فيديو الخلفية -->
-    <video class="video-background" autoplay loop muted>
-        <source src="https://files.catbox.moe/xob43j.mp4" type="video/WebM">
-        متصفحك لا يدعم تشغيل الفيديو.
-    </video>
-    
-    <!-- تغطية داكنة لتحسين الوضوح -->
-    <div class="overlay"></div>
-
-    <h1>TAKAMURA API</h1>
-    <div class="container" id="type-container">
-        <p class="message" id="message">جارٍ تحميل البيانات...</p>
+    <!-- Splash Screen -->
+    <div id="splash" class="splash-screen">
+        <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="logo animate-pulse">
+        <h1 class="text-4xl font-bold mb-4 glow-title">مرحبًا بك في TARBOO API 🚀</h1>
+        <button onclick="enterSite()" class="btn-primary"><span>دخول الموقع</span></button>
     </div>
 
+    <!-- Background Video -->
+    <video class="absolute top-0 left-0 w-full h-full object-cover z-[-2]" autoplay loop muted>
+        <source src="https://files.catbox.moe/5etht6.mp4" type="video/webm" />
+    </video>
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <header class="text-center pt-20">
+        <h1 id="main-title" class="text-4xl md:text-5xl bg-white bg-opacity-10 px-6 py-2 rounded-xl backdrop-blur glow-title">TARBOO API</h1>
+    </header>
+
+    <!-- Container for API types -->
+    <main class="flex flex-col items-center px-4 py-10">
+        <p id="message" class="text-gray-300 mb-6">جارٍ تحميل البيانات...</p>
+        <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full"></div>
+    </main>
+
+    <!-- Chatbot -->
+    <div class="fixed bottom-6 right-6">
+        <div class="chatbot-icon cursor-pointer" onclick="toggleChat()">
+            <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="Bot" class="rounded-full w-14 h-14 shadow-lg" />
+        </div>
+        <div id="chat-container" class="hidden mt-2 w-80 p-4">
+            <div class="flex justify-between items-center text-white mb-3">
+                <span class="font-bold">💬 TARBOO Bot</span>
+                <button onclick="toggleChat()" class="btn-close">×</button>
+            </div>
+            <div id="chat-messages" class="h-64 overflow-y-auto space-y-2 mb-2"></div>
+            <div class="flex gap-2">
+                <input id="chat-input" type="text" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)" class="flex-1 p-2 rounded text-black" />
+                <button onclick="sendMessage()" class="btn-send"><span>إرسال</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
+        function enterSite() {
+            const splash = document.getElementById("splash");
+            gsap.to(splash, {
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out",
+                onComplete: () => {
+                    splash.style.display = "none";
+                    animatePageIn();
+                },
+            });
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById("chat-container");
+            chat.classList.toggle("hidden");
+            if (!chat.classList.contains("hidden")) {
+                gsap.fromTo(chat, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" });
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === "Enter") sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("chat-input");
+            const messages = document.getElementById("chat-messages");
+            const msg = input.value.trim();
+            const prompt = "أنت مساعد ذكي اسمه TARBOO. قدم إجابات واضحة ومهذبة وبأسلوب إيجابي.";
+            if (!msg) return;
+            messages.innerHTML += `<div class='user-msg text-right'><span>${msg}</span></div>`;
+            input.value = "";
+            messages.scrollTop = messages.scrollHeight;
+            try {
+                const res = await fetch(`/api/ai/cai?prompt=${prompt}&text=${encodeURIComponent(msg)}`);
+                const reply = await res.text();
+                messages.innerHTML += `<div class='bot-msg text-left'><span>${reply}</span></div>`;
+                messages.scrollTop = messages.scrollHeight;
+            } catch {
+                messages.innerHTML += `<div class='error-msg text-left'><span>❌ فشل الاتصال بالخادم</span></div>`;
+            }
+        }
+
         async function loadTypes() {
             try {
-                const response = await fetch('/api/list');
-                const data = await response.json();
-                const container = document.getElementById('type-container');
-                const message = document.getElementById('message');
-
-                container.innerHTML = ''; // مسح الرسالة
-
-                const types = [...new Set(data.map(api => api.type || 'افتراضي'))];
-
-                if (types.length === 0) {
-                    message.innerText = "لم يتم العثور على أنواع APIs.";
-                    return;
-                }
-
-                types.forEach(type => {
-                    const typeElement = document.createElement('a');
-                    typeElement.classList.add('type-box');
-                    typeElement.href = `type.html?type=${type}`;
-                    typeElement.innerText = `${type.toUpperCase()}`;
-                    container.appendChild(typeElement);
+                const res = await fetch("/api/list");
+                const data = await res.json();
+                const container = document.getElementById("type-container");
+                const message = document.getElementById("message");
+                message.style.display = "none";
+                const types = [...new Set(data.map((api) => api.type || "افتراضي"))];
+                types.forEach((type) => {
+                    const el = document.createElement("a");
+                    el.className = "api-type-btn";
+                    el.href = `type.html?type=${encodeURIComponent(type)}`;
+                    el.innerHTML = `<span>${type.toUpperCase()}</span>`;
+                    container.appendChild(el);
                 });
-            } catch (error) {
-                console.error('خطأ في تحميل البيانات:', error);
-                document.getElementById('message').innerText = "❌ حدث خطأ أثناء تحميل البيانات.";
+                gsap.from(".api-type-btn", { opacity: 0, y: 40, stagger: 0.15, duration: 0.6, ease: "power3.out" });
+            } catch (err) {
+                document.getElementById("message").innerText = "❌ فشل في تحميل البيانات.";
             }
+        }
+
+        function animatePageIn() {
+            gsap.from("#main-title", { y: -40, opacity: 0, duration: 1, ease: "power3.out" });
+            gsap.from("main", { opacity: 0, y: 20, duration: 1, delay: 0.3, ease: "power3.out" });
+            gsap.from(".chatbot-icon", { scale: 0, opacity: 0, duration: 0.7, delay: 0.7, ease: "back.out(1.7)" });
         }
 
         loadTypes();
     </script>
-    <script>
-    function toggleChat() {
-        const chatContainer = document.getElementById("chat-container");
-        chatContainer.style.display = chatContainer.style.display === "flex" ? "none" : "flex";
-    }
-
-    function handleKeyPress(event) {
-        if (event.key === "Enter") {
-            sendMessage();
-        }
-    }
-
-    async function sendMessage() {
-        const inputField = document.getElementById("chat-input");
-        const messagesContainer = document.getElementById("chat-messages");
-        const userMessage = inputField.value.trim();
-        const prompt = 'You are an intelligent and friendly assistant named Takamura. Your goal is to provide helpful, informative, and friendly responses to users. You respond in a polite and engaging manner, always offering clear and concise answers. You are capable of answering a variety of questions, including general knowledge, troubleshooting, or casual conversation. If a question is unclear, you politely ask for clarification. Always maintain a positive and respectful tone.';
-        
-        if (userMessage === "") return;
-
-        // إضافة رسالة المستخدم
-        const userDiv = document.createElement("div");
-        userDiv.className = "user-message";
-        userDiv.innerText = userMessage;
-        messagesContainer.appendChild(userDiv);
-        inputField.value = "";
-
-        // طلب الرد من API
-        try {
-            const response = await fetch(`${global.t}/api/ai/cai?prompt=${prompt}&text=${encodeURIComponent(userMessage)}`);
-            const data = await response.text();
-
-            const botDiv = document.createElement("div");
-            botDiv.className = "bot-message";
-            botDiv.innerText = data;
-            messagesContainer.appendChild(botDiv);
-        } catch (error) {
-            console.error("خطأ في جلب الرد:", error);
-            const botDiv = document.createElement("div");
-            botDiv.className = "bot-message";
-            botDiv.innerText = "❌ حدث خطأ أثناء الاتصال بالخادم.";
-            messagesContainer.appendChild(botDiv);
-        }
-
-        // التمرير للأسفل تلقائيًا
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-    </script>
-    <div class="chatbot-icon" onclick="toggleChat()">
-    <img src="https://c.top4top.io/p_3352185ep0.jpg" alt="Bot">
-</div>
-
-<div class="chatbot-container" id="chat-container">
-    <div class="chat-header">
-        <span>💬 Takamura Bot</span>
-        <button class="close-chat" onclick="toggleChat()">×</button>
-    </div>
-    <div class="chat-body" id="chat-body">
-        <div class="chat-messages" id="chat-messages"></div>
-        <input type="text" id="chat-input" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)">
-        <button onclick="sendMessage()">إرسال</button>
-    </div>
-</div>
-    
 </body>
 </html>
