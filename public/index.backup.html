@@ -226,28 +226,9 @@
             from { text-shadow: 0 0 10px #fff, 0 0 20px #4f46e5; }
             to { text-shadow: 0 0 20px #fff, 0 0 40px #8b5cf6; }
         }
-
-        /* شريط تقدم التمرير */
-        #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            width: 0;
-            background: linear-gradient(90deg, #ec4899, #f59e0b);
-            z-index: 50;
-        }
-
-        /* الوضع الفاتح */
-        body.light {
-            background-color: #f8fafc;
-            color: #000;
-        }
-        body.light .overlay { background: rgba(255,255,255,0.6); }
     </style>
 </head>
 <body>
-    <div id="scroll-progress"></div>
     <!-- Splash Screen -->
     <div id="splash" class="splash-screen">
         <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="logo animate-pulse">
@@ -268,10 +249,6 @@
 
     <!-- Container for API types -->
     <main class="flex flex-col items-center px-4 py-10">
-        <div class="flex gap-2 mb-6 w-full max-w-md">
-            <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث..." class="flex-1 p-2 rounded text-black" />
-            <button id="theme-toggle" onclick="toggleTheme()" class="btn-send">وضع نهاري</button>
-        </div>
         <p id="message" class="text-gray-300 mb-6">جارٍ تحميل البيانات...</p>
         <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full"></div>
     </main>
@@ -295,7 +272,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="file.js"></script>
     <script>
         function enterSite() {
             const splash = document.getElementById("splash");
@@ -369,7 +345,6 @@
         }
 
         loadTypes();
-        initProgressBar();
     </script>
 </body>
 </html>
