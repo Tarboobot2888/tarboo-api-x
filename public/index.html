@@ -6,12 +6,12 @@
     <title>TARBOO API Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
             overflow-x: hidden;
             background-color: #000;
             color: white;
@@ -251,8 +251,11 @@
     <!-- Splash Screen -->
     <div id="splash" class="splash-screen">
         <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="logo animate-pulse">
-        <h1 class="text-4xl font-bold mb-4 glow-title">مرحبًا بك في TARBOO API 🚀</h1>
-        <button onclick="enterSite()" class="btn-primary"><span>دخول الموقع</span></button>
+        <h1 class="text-4xl font-bold mb-4 glow-title gradient-text">مرحبًا بك في TARBOO API 🚀</h1>
+        <div id="progress-bar" class="w-2/3 h-2 bg-gray-700 rounded overflow-hidden">
+            <div id="progress" class="h-full w-0 bg-gradient-to-r from-purple-700 via-pink-500 to-yellow-400"></div>
+        </div>
+        <button onclick="enterSite()" class="btn-primary mt-4"><span>دخول الموقع</span></button>
     </div>
 
     <!-- Background Video -->
@@ -260,17 +263,23 @@
         <source src="https://files.catbox.moe/5etht6.mp4" type="video/webm" />
     </video>
     <div class="overlay"></div>
+    <div id="particles-bg" class="particles-bg"></div>
 
     <!-- Header -->
-    <header class="text-center pt-20">
-        <h1 id="main-title" class="text-4xl md:text-5xl bg-white bg-opacity-10 px-6 py-2 rounded-xl backdrop-blur glow-title">TARBOO API</h1>
+    <header class="fixed top-0 w-full flex justify-between items-center px-6 py-3 bg-white bg-opacity-10 backdrop-blur z-20">
+        <h1 id="main-title" class="text-2xl font-extrabold gradient-text">TARBOO</h1>
+        <nav class="space-x-4 space-x-reverse hidden md:block">
+            <a href="#services" class="hover:underline">الخدمات</a>
+            <a href="#features" class="hover:underline">المميزات</a>
+            <a href="#contact" class="hover:underline">تواصل معنا</a>
+        </nav>
+        <button id="theme-toggle" onclick="toggleTheme()" class="btn-send text-sm" aria-label="تغيير الثيم">وضع نهاري</button>
     </header>
 
     <!-- Container for API types -->
-    <main class="flex flex-col items-center px-4 py-10">
+    <main class="flex flex-col items-center px-4 py-20">
         <div class="flex gap-2 mb-6 w-full max-w-md">
             <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث..." class="flex-1 p-2 rounded text-black" />
-            <button id="theme-toggle" onclick="toggleTheme()" class="btn-send">وضع نهاري</button>
         </div>
         <p id="message" class="text-gray-300 mb-6">جارٍ تحميل البيانات...</p>
         <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl w-full"></div>
@@ -308,6 +317,16 @@
                     animatePageIn();
                 },
             });
+        }
+
+        function simulateLoading() {
+            const bar = document.getElementById("progress");
+            let p = 0;
+            const int = setInterval(() => {
+                p += 1;
+                if (bar) bar.style.width = p + "%";
+                if (p >= 100) clearInterval(int);
+            }, 40);
         }
 
         function toggleChat() {
@@ -370,6 +389,7 @@
 
         loadTypes();
         initProgressBar();
+        simulateLoading();
     </script>
 </body>
 </html>
