@@ -12,6 +12,7 @@
   <!-- GSAP -->
   <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+  <script src="file.js"></script>
   <style>
     body {
       font-family: 'Tajawal', 'Cairo', sans-serif;
@@ -283,16 +284,17 @@
       </a>
       
       <nav class="nav-links">
-        <a href="#" class="active">الرئيسية</a>
-        <a href="#">الواجهات البرمجية</a>
-        <a href="#">التوثيق</a>
-        <a href="#">المجتمع</a>
-        <a href="#">التسعير</a>
+        <a href="#" class="active" data-key="home">الرئيسية</a>
+        <a href="#" data-key="apis">الواجهات البرمجية</a>
+        <a href="#" data-key="docs">التوثيق</a>
+        <a href="#" data-key="community">المجتمع</a>
+        <a href="#" data-key="pricing">التسعير</a>
       </nav>
       
       <div class="flex items-center">
         <button id="theme-toggle" class="btn-theme">☀️</button>
-        <button class="btn-cta">ابدأ الآن</button>
+        <button id="lang-toggle" class="btn-theme ml-2">EN</button>
+        <button id="start-btn" class="btn-cta" data-key="start">ابدأ الآن</button>
         <button class="mobile-menu-btn">
           <i class="fas fa-bars"></i>
         </button>
@@ -303,12 +305,12 @@
   <!-- المحتوى الرئيسي -->
   <main class="flex flex-col items-center px-4 py-28">
     <div class="text-center mb-16 max-w-3xl">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4 glow-text">منصة TARBOO للواجهات البرمجية</h1>
-      <p class="text-xl text-gray-200 mb-8">أقوى واجهات برمجية عربية لتطوير تطبيقاتك بسرعة وكفاءة</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 glow-text" data-key="heroTitle">منصة TARBOO للواجهات البرمجية</h1>
+      <p class="text-xl text-gray-200 mb-8" data-key="heroSubtitle">أقوى واجهات برمجية عربية لتطوير تطبيقاتك بسرعة وكفاءة</p>
       
       <div class="flex gap-2 mb-7 w-full max-w-md mx-auto">
         <input id="search" type="text" oninput="filterTypes()" placeholder="ابحث عن نوع API ..." class="flex-1 p-4 rounded-lg text-black shadow-lg bg-white/90" />
-        <button class="btn-cta px-6">
+        <button id="search-btn" class="btn-cta px-6" data-key="searchBtn">
           <i class="fas fa-search mr-2"></i> بحث
         </button>
       </div>
