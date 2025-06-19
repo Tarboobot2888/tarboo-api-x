@@ -30,6 +30,53 @@ function copyToClipboard(text) {
     alert('✅ تم نسخ المسار');
 }
 
+const translations = {
+    ar: {
+        home: 'الرئيسية',
+        apis: 'الواجهات البرمجية',
+        docs: 'التوثيق',
+        community: 'المجتمع',
+        pricing: 'التسعير',
+        start: 'ابدأ الآن',
+        searchBtn: 'بحث',
+        searchPlaceholder: 'ابحث عن نوع API ...',
+        pageTitle: 'TARBOO-API',
+        heroTitle: 'منصة TARBOO للواجهات البرمجية',
+        heroSubtitle: 'أقوى واجهات برمجية عربية لتطوير تطبيقاتك بسرعة وكفاءة'
+    },
+    en: {
+        home: 'Home',
+        apis: 'APIs',
+        docs: 'Docs',
+        community: 'Community',
+        pricing: 'Pricing',
+        start: 'Get Started',
+        searchBtn: 'Search',
+        searchPlaceholder: 'Search API type ...',
+        pageTitle: 'TARBOO-API',
+        heroTitle: 'TARBOO API Platform',
+        heroSubtitle: 'Powerful Arabic APIs to build your apps quickly and efficiently'
+    }
+};
+
+function applyLanguage(lang) {
+    const t = translations[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (t[key]) el.textContent = t[key];
+    });
+    const search = document.getElementById('search');
+    if (search) search.placeholder = t.searchPlaceholder;
+    const searchBtn = document.getElementById('search-btn');
+    if (searchBtn) searchBtn.innerHTML = `<i class="fas fa-search mr-2"></i> ${t.searchBtn}`;
+    const startBtn = document.getElementById('start-btn');
+    if (startBtn) startBtn.textContent = t.start;
+    const pageTitle = document.getElementById('page-title');
+    if (pageTitle) pageTitle.textContent = t.pageTitle;
+}
+
 function createParticles() {
     const bg = document.getElementById('particles-bg');
     if (!bg) return;
@@ -57,6 +104,18 @@ function createParticles() {
 document.addEventListener('DOMContentLoaded', () => {
     applySavedTheme();
     createParticles();
+    const lang = localStorage.getItem('lang') || document.documentElement.lang || 'ar';
+    applyLanguage(lang);
+    const toggle = document.getElementById('lang-toggle');
+    if (toggle) {
+        toggle.innerText = lang === 'ar' ? 'EN' : 'AR';
+        toggle.addEventListener('click', () => {
+            const newLang = document.documentElement.lang === 'ar' ? 'en' : 'ar';
+            applyLanguage(newLang);
+            toggle.innerText = newLang === 'ar' ? 'EN' : 'AR';
+            localStorage.setItem('lang', newLang);
+        });
+    }
 });
 
 function filterTypes() {
