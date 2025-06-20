@@ -41,9 +41,23 @@ function setTheme(mode) {
     localStorage.setItem('theme', mode);
 }
 
+function showToast(msg) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = msg;
+    container.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+        el.classList.remove('show');
+        el.addEventListener('transitionend', () => el.remove());
+    }, 2000);
+}
+
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text);
-    alert('✅ تم نسخ المسار');
+    showToast('✅ تم النسخ!');
 }
 
 const translations = {
@@ -132,6 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('lang', newLang);
         });
     }
+
+    document.body.addEventListener('click', e => {
+        const btn = e.target.closest('.btn-cta, .btn-theme, .copy-btn');
+        if (btn) addRippleEffect.call(btn, e);
+    });
 });
 
 function filterTypes() {
@@ -146,4 +165,17 @@ function filterAPIs() {
     document.querySelectorAll('.api-box').forEach(box => {
         box.style.display = box.innerText.toLowerCase().includes(query) ? 'block' : 'none';
     });
+}
+
+function addRippleEffect(e) {
+    const btn = e.currentTarget;
+    const circle = document.createElement('span');
+    const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+    circle.style.width = circle.style.height = diameter + 'px';
+    circle.style.left = e.clientX - btn.getBoundingClientRect().left - diameter/2 + 'px';
+    circle.style.top = e.clientY - btn.getBoundingClientRect().top - diameter/2 + 'px';
+    circle.className = 'ripple';
+    const ripple = btn.getElementsByClassName('ripple')[0];
+    if (ripple) ripple.remove();
+    btn.appendChild(circle);
 }
