@@ -25,3 +25,10 @@ npm run start
 ## Credits
 
 [Khurshidbek Kobilov](https://www.linkedin.com/in/khurshid-kobilov/)
+
+## UI Enhancements
+
+The public site includes a splash screen with progress bar, animated particles and
+a simple mobile navigation menu. A light/dark theme can be selected from the
+splash screen or header. All features are written in vanilla JS and TailwindCSS
+and can be tested by running `npm start` and visiting `http://localhost:9012`.

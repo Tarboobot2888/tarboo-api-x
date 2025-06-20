@@ -11,18 +11,34 @@ function initProgressBar() {
 function applySavedTheme() {
     const saved = localStorage.getItem('theme');
     if (saved === 'light') {
-        document.body.classList.add('light');
+        document.body.classList.add('bg-white');
+        document.body.classList.add('text-gray-900');
     }
     const btn = document.getElementById('theme-toggle');
-    if (btn) btn.innerText = document.body.classList.contains('light') ? 'وضع ليلي' : 'وضع نهاري';
+    if (btn) btn.textContent = document.body.classList.contains('bg-white') ? '🌙' : '☀️';
 }
 
 function toggleTheme() {
     const body = document.body;
-    body.classList.toggle('light');
+    body.classList.toggle('bg-white');
+    body.classList.toggle('text-gray-900');
     const btn = document.getElementById('theme-toggle');
-    if (btn) btn.innerText = body.classList.contains('light') ? 'وضع ليلي' : 'وضع نهاري';
-    localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+    if (btn) btn.textContent = body.classList.contains('bg-white') ? '🌙' : '☀️';
+    localStorage.setItem('theme', body.classList.contains('bg-white') ? 'light' : 'dark');
+}
+
+function setTheme(mode) {
+    const body = document.body;
+    if (mode === 'light') {
+        body.classList.add('bg-white');
+        body.classList.add('text-gray-900');
+    } else {
+        body.classList.remove('bg-white');
+        body.classList.remove('text-gray-900');
+    }
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = mode === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', mode);
 }
 
 function copyToClipboard(text) {
