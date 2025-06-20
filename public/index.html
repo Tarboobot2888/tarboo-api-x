@@ -152,7 +152,18 @@
       color: transparent;
     }
     
-    .nav-links { display: flex; gap: 1.7rem;}
+    .nav-links { display: flex; gap: 1.7rem; }
+    .nav-links.open {
+      display: flex !important;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      right: 1rem;
+      background: rgba(15,23,42,0.95);
+      padding: 1rem 1.4rem;
+      border-radius: 1rem;
+      gap: 1rem;
+    }
     
     .nav-links a {
       color: #f8fafc; font-weight: 500;
@@ -180,6 +191,8 @@
       color: #fff; box-shadow: 0 4px 16px #6d28d9a0;
       transition: box-shadow 0.2s, transform 0.2s;
     }
+
+    .theme-select button { padding: 6px 14px; }
     
     .btn-theme:hover, .btn-cta:hover { transform: scale(1.05);}
     
@@ -225,6 +238,8 @@
       font-size: 1.5rem;
       cursor: pointer;
     }
+
+    #enter-btn { margin-top: 1.5rem; }
     
     /* تصميم البطاقات */
     .api-card {
@@ -269,6 +284,11 @@
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <button id="enter-btn" class="btn-cta mt-6 hidden">دخول</button>
+    <div class="theme-select mt-4 hidden" id="splash-theme">
+      <button class="btn-theme" onclick="setTheme('dark')">🌙</button>
+      <button class="btn-theme" onclick="setTheme('light')">☀️</button>
     </div>
   </div>
 
@@ -431,24 +451,41 @@
       }
     }
 
+    function playBeep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.value = 440;
+        osc.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.15);
+      } catch (e) {}
+    }
+
     // -------------------- Splash Progress ----------------------
     function startSplashProgress() {
       let progress = 0;
       const progressFill = document.getElementById('progress-fill');
       const splashScreen = document.getElementById('splash-screen');
+      const enterBtn = document.getElementById('enter-btn');
+      const themeBtns = document.getElementById('splash-theme');
       const interval = setInterval(() => {
         progress += Math.random() * 12;
         if (progress >= 100) {
           progress = 100;
           clearInterval(interval);
-          setTimeout(() => {
-            splashScreen.style.opacity = '0';
-            splashScreen.style.visibility = 'hidden';
-            initPageAnimations();
-          }, 600);
+          enterBtn.classList.remove('hidden');
+          themeBtns.classList.remove('hidden');
         }
         progressFill.style.width = `${progress}%`;
       }, 180);
+      enterBtn.addEventListener('click', () => {
+        playBeep();
+        splashScreen.style.opacity = '0';
+        splashScreen.style.visibility = 'hidden';
+        initPageAnimations();
+      });
     }
 
     // -------------------- شريط التقدم عند التمرير ----------------------
@@ -565,6 +602,10 @@
       document.body.classList.toggle("text-gray-900");
       this.textContent = document.body.classList.contains("bg-white") ? "🌙" : "☀️";
     };
+
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
 
     // -------------------- تحميل أولي ----------------------
     document.addEventListener('DOMContentLoaded', function () {
