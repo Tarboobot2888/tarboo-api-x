@@ -1,12 +1,12 @@
 // أنظمة الألوان
 export const colors = {
   primary: {
-    light: '#4f46e5',
-    dark: '#818cf8',
+    light: '#8E2DE2',
+    dark: '#4A00E0',
   },
   secondary: {
-    light: '#10b981',
-    dark: '#34d399',
+    light: '#20B2AA',
+    dark: '#00CDAC',
   },
   background: {
     light: '#f9fafb',
@@ -41,6 +41,7 @@ export const shadows = {
   inner: 'shadow-inner',
   none: 'shadow-none',
   glow: 'shadow-[0_0_15px_rgba(79,70,229,0.3)]',
+  deep: 'shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]',
 }
 
 // أنظمة الحركة والانتقالات
