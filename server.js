@@ -3,7 +3,7 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 app.use(express.json()); // دعم JSON
 app.set('json spaces', 2);
 app.listen(9012, () => {

@@ -9,9 +9,9 @@
     <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800&display=swap');
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             overflow-x: hidden;
             background-color: #000;
             color: white;
@@ -62,7 +62,7 @@
             letter-spacing: 1px;
             border: none;
             border-radius: 9999px;
-            background: linear-gradient(270deg, #4f46e5, #8b5cf6, #ec4899, #f59e0b);
+            background: linear-gradient(270deg, #4A00E0, #8E2DE2, #FF9068, #00CDAC);
             background-size: 800% 800%;
             animation: gradientMove 8s ease infinite;
             box-shadow: 0 4px 15px rgba(79, 70, 229, 0.6);
@@ -93,7 +93,7 @@
         .btn-send {
             position: relative;
             display: inline-block;
-            background: linear-gradient(270deg, #10b981, #14b8a6, #06b6d4);
+            background: linear-gradient(270deg, #20B2AA, #00CDAC);
             background-size: 600% 600%;
             animation: gradientMove 6s ease infinite;
             color: #fff;
@@ -102,7 +102,7 @@
             font-weight: 600;
             border: none;
             border-radius: 9999px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
+            box-shadow: 0 4px 12px rgba(0, 205, 172, 0.6);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
             overflow: hidden;
@@ -120,11 +120,11 @@
         }
         .btn-send:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.8);
+            box-shadow: 0 6px 18px rgba(0, 205, 172, 0.8);
         }
         .btn-send:active {
             transform: scale(0.95);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.9);
+            box-shadow: 0 2px 8px rgba(0, 205, 172, 0.9);
         }
         /* زر إغلاق الشات */
         .btn-close {
@@ -160,7 +160,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(45deg, rgba(59,130,246,0.5), rgba(139,92,246,0.5), rgba(99,102,241,0.5));
+            background: linear-gradient(45deg, rgba(74,0,224,0.5), rgba(142,45,226,0.5));
             background-size: 200% 200%;
             animation: gradientMove 5s ease infinite;
             opacity: 0;
@@ -226,6 +226,9 @@
             from { text-shadow: 0 0 10px #fff, 0 0 20px #4f46e5; }
             to { text-shadow: 0 0 20px #fff, 0 0 40px #8b5cf6; }
         }
+
+        .card { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .btn { filter: drop-shadow(0 4px 6px rgba(79, 70, 229, 0.5)); }
     </style>
 </head>
 <body>
