@@ -1,143 +1,106 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TARBOO-API</title>
+    <title>TARBOO API - الأنواع</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
-        /* خلفية الصفحة */
-        body {
-            font-family: 'Tajawal', sans-serif;
-            text-align: center;
-            background: linear-gradient(135deg, #4A00E0, #8E2DE2);
-            color: white;
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&display=swap');
+        
+        :root {
+            --primary: #4A00E0;
+            --secondary: #8E2DE2;
+            --accent: #00CDAC;
+            --dark: #0F0A31;
+            --darker: #090520;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        /* العنوان الرئيسي */
-        h1 {
-            margin-top: 20px;
-            font-size: 2.5em;
-            text-shadow: 0 0 15px #fff, 0 0 30px #FF7E5F, 0 0 45px #FF9068;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #FF7E5F;
-            }
-            to {
-                text-shadow: 0 0 20px #fff, 0 0 40px #FF9068;
-            }
-        }
-
-        /* الحاوية */
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 90%;
-            margin-top: 30px;
-        }
-
-        /* صناديق API */
-        .api-box {
-            background: rgba(255, 255, 255, 0.12);
-            padding: 20px;
-            margin: 15px;
-            width: 320px;
-            border-radius: 12px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
-            text-align: left;
             position: relative;
-            overflow: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .api-box {
             opacity: 0;
             transform: translateY(40px);
             transition: transform 0.6s ease-out, opacity 0.6s ease-out;
         }
-
-        /* حركة الظهور والاختفاء */
+        
         .api-box.show {
             opacity: 1;
             transform: translateY(0);
         }
-
+        
         .api-box.hide {
             opacity: 0;
             transform: translateY(40px);
         }
-
-        /* صورة API */
-        .api-box img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        /* عنوان API */
-        .api-box h2 {
-            font-size: 22px;
-            margin: 12px 0;
-            color: #ffffff;
-            text-shadow: 0 0 5px #fff, 0 0 15px #FF7E5F;
-        }
-
-        /* الوصف */
-        .api-box p {
-            margin: 5px 0;
-            color: #ddd;
-            font-size: 15px;
-        }
-
-        /* زر الدخول */
-        .api-box a {
+        
+        .api-card-img {
+            height: 180px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 12px;
-            padding: 10px;
-            background: #FF7E5F;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            box-shadow: 0 0 15px #FF9068;
-            transition: background 0.3s, box-shadow 0.3s;
+            font-size: 3rem;
         }
-
-        .api-box a i {
-            margin-left: 8px;
+        
+        .btn-visit {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: all 0.3s ease;
         }
-
-        .api-box a:hover {
-            background: #FF9068;
-            box-shadow: 0 0 20px #FF9068, 0 0 35px #FF7E5F;
+        
+        .btn-visit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
-
-        /* إشعار عدم وجود APIs */
-        .no-data {
-            font-size: 18px;
-            color: #FF7E5F;
-            margin-top: 20px;
-        }
-
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="py-4 px-6 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="w-12 h-12 rounded-full mr-3">
+            <h1 class="text-2xl font-bold" style="background: linear-gradient(90deg, #8E2DE2, #4A00E0, #00CDAC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 300% 300%; animation: gradientMove 8s ease infinite;">TARBOO API</h1>
+        </div>
+        
+        <div class="flex items-center">
+            <a href="index.html" class="mr-4 bg-white/10 hover:bg-white/20 py-2 px-4 rounded-full transition">
+                <i class="fas fa-arrow-left mr-2"></i>العودة
+            </a>
+        </div>
+    </nav>
 
-    <h1 id="page-title">TARBOO-API</h1>
-    <div class="container" id="api-container">
-        <!-- سيتم تحميل الـ APIs هنا -->
-    </div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 id="page-title" class="text-3xl md:text-4xl font-bold mb-4">TARBOO API</h1>
+            <p class="text-gray-400">استكشف واجهات برمجة التطبيقات حسب النوع</p>
+        </div>
+        
+        <div id="api-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </main>
 
     <script>
         async function loadAPIs() {
@@ -153,19 +116,39 @@
                 const filteredAPIs = data.filter(api => api.type === apiType);
 
                 if (filteredAPIs.length === 0) {
-                    container.innerHTML = `<p class="no-data">❌ لا توجد APIs من هذا النوع.</p>`;
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-16">
+                            <div class="glass-card p-8 max-w-md mx-auto">
+                                <i class="fas fa-exclamation-circle text-4xl text-red-400 mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">لا توجد APIs</h3>
+                                <p class="text-gray-400 mb-6">لا توجد واجهات برمجة تطبيقات من هذا النوع حالياً</p>
+                                <a href="index.html" class="inline-block py-2 px-6 bg-[#4A00E0] rounded-full">
+                                    <i class="fas fa-arrow-left mr-2"></i>العودة للرئيسية
+                                </a>
+                            </div>
+                        </div>
+                    `;
                 } else {
                     filteredAPIs.forEach(api => {
                         const apiElement = document.createElement('div');
-                        apiElement.classList.add('api-box');
-
+                        apiElement.classList.add('api-box', 'glass-card');
+                        
                         apiElement.innerHTML = `
-                            <img src="${api.logo || 'https://via.placeholder.com/320'}" alt="Logo">
-                            <h2>${api.name}</h2>
-                            <p><strong>المسار:</strong> ${api.endpoint}</p>
-                            ${api.url ? `<a href="${api.url}" target="_blank">زيارة API <i class="fas fa-arrow-right"></i></a>` : ''}
+                            <div class="api-card-img">
+                                <i class="fas fa-code text-white"></i>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">${api.name}</h3>
+                                <p class="text-gray-400 mb-4">${api.description || 'لا يوجد وصف متاح'}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-400">${api.type || 'عام'}</span>
+                                    <a href="${api.url || '#'}" class="btn-visit py-2 px-4 rounded-full text-sm">
+                                        <i class="fas fa-external-link-alt mr-2"></i>زيارة
+                                    </a>
+                                </div>
+                            </div>
                         `;
-
+                        
                         container.appendChild(apiElement);
                     });
 
@@ -173,7 +156,18 @@
                     observeBoxes();
                 }
             } catch (error) {
-                console.error('❌ خطأ في تحميل البيانات:', error);
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="glass-card p-8 max-w-md mx-auto">
+                            <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2">حدث خطأ</h3>
+                            <p class="text-gray-400 mb-6">تعذر تحميل البيانات. يرجى المحاولة مرة أخرى</p>
+                            <button onclick="location.reload()" class="inline-block py-2 px-6 bg-[#4A00E0] rounded-full">
+                                <i class="fas fa-redo mr-2"></i>إعادة المحاولة
+                            </button>
+                        </div>
+                    </div>
+                `;
             }
         }
 
@@ -189,13 +183,20 @@
                         entry.target.classList.remove('show');
                     }
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.1 });
 
             apiBoxes.forEach(box => observer.observe(box));
         }
 
-        loadAPIs();
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAPIs();
+            
+            // Add animation for page entrance
+            gsap.from('nav', { y: -40, opacity: 0, duration: 0.8 });
+            gsap.from('#page-title', { y: -20, opacity: 0, duration: 0.8, delay: 0.2 });
+            gsap.from('#api-container', { opacity: 0, duration: 1, delay: 0.4 });
+        });
     </script>
-
 </body>
 </html>
