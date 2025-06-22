@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TARBOO API - لوحة المستخدم</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* نفس الأنماط السابقة مع إضافات للوحة التحكم */
+        :root {
+            --primary: #4A00E0;
+            --secondary: #8E2DE2;
+            --accent: #00CDAC;
+            --dark: #0F0A31;
+            --darker: #090520;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .api-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .api-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background: rgba(15, 10, 49, 0.8);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .main-content {
+            margin-right: 250px;
+            padding: 2rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(74, 0, 224, 0.3);
+        }
+        
+        .nav-link.active {
+            background: rgba(74, 0, 224, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar p-4">
+        <div class="flex flex-col items-center mb-8">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#4A00E0] to-[#00CDAC] flex items-center justify-center mb-3">
+                <i class="fas fa-user text-white text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-lg">محمود ترابو</h3>
+            <p class="text-gray-400 text-sm">مستخدم عادي</p>
+        </div>
+        
+        <nav class="space-y-2">
+            <a href="#" class="nav-link active">
+                <i class="fas fa-home mr-3"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-code mr-3"></i>
+                <span>واجهات API</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-star mr-3"></i>
+                <span>المفضلة</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-history mr-3"></i>
+                <span>سجل الاستخدام</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-cog mr-3"></i>
+                <span>الإعدادات</span>
+            </a>
+            <a href="#" id="logout-btn" class="nav-link text-red-400">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                <span>تسجيل الخروج</span>
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold">مرحباً بك في لوحة التحكم</h1>
+            <p class="text-gray-400">هنا يمكنك إدارة حسابك واستكشاف واجهات برمجة التطبيقات</p>
+        </header>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="glass-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">واجهات API</h3>
+                    <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                        <i class="fas fa-code text-blue-400"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold mb-2">24</p>
+                <p class="text-gray-400">واجهة برمجة متاحة</p>
+            </div>
+            
+            <div class="glass-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">الاستخدام</h3>
+                    <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <i class="fas fa-bolt text-green-400"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold mb-2">1,248</p>
+                <p class="text-gray-400">طلب API هذا الشهر</p>
+            </div>
+            
+            <div class="glass-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">المفضلة</h3>
+                    <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                        <i class="fas fa-star text-purple-400"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold mb-2">5</p>
+                <p class="text-gray-400">واجهات مفضلة</p>
+            </div>
+        </div>
+        
+        <div class="glass-card p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">واجهات برمجة التطبيقات</h2>
+                <div class="relative w-64">
+                    <input type="text" placeholder="ابحث عن API..." class="form-input w-full pl-10">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-3 px-4 text-right">الاسم</th>
+                            <th class="py-3 px-4">النوع</th>
+                            <th class="py-3 px-4">الحالة</th>
+                            <th class="py-3 px-4">الاستخدام</th>
+                            <th class="py-3 px-4">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="api-table-body">
+                        <!-- سيتم تعبئة البيانات من API -->
+                        <tr>
+                            <td colspan="5" class="py-8 text-center">
+                                <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+                                <p>جارٍ تحميل البيانات...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrhxWtxRjeyCPGRUD3WAOCRS0yNqvq27E",
+            authDomain: "tarboo-api-914ea.firebaseapp.com",
+            projectId: "tarboo-api-914ea",
+            storageBucket: "tarboo-api-914ea.appspot.com",
+            messagingSenderId: "668697346516",
+            appId: "1:668697346516:web:243f646ae8998c2ce61641",
+            measurementId: "G-KCQ8HXQKJB"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        // Logout function
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
+            });
+        });
+        
+        // Fetch APIs from API endpoint
+        async function fetchAPIs() {
+            try {
+                // في الواقع الحقيقي، سيتم استدعاء API حقيقي
+                // هذا مثال لمحاكاة البيانات
+                const response = await fetch('https://api.example.com/list');
+                const data = await response.json();
+                
+                const tableBody = document.getElementById('api-table-body');
+                tableBody.innerHTML = '';
+                
+                data.forEach(api => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-700 hover:bg-gray-800/30';
+                    row.innerHTML = `
+                        <td class="py-3 px-4">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center mr-3">
+                                    <i class="fas fa-code text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">${api.name}</div>
+                                    <div class="text-gray-400 text-sm">${api.endpoint}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3 px-4">${api.type}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-1 rounded-full text-xs ${api.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
+                                ${api.status === 'active' ? 'نشط' : 'غير نشط'}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">${api.usage} طلب</td>
+                        <td class="py-3 px-4">
+                            <button class="bg-blue-500 hover:bg-blue-600 py-1 px-3 rounded text-sm">
+                                <i class="fas fa-eye mr-1"></i> عرض
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                const tableBody = document.getElementById('api-table-body');
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-red-400">
+                            <i class="fas fa-exclamation-circle text-2xl mb-3"></i>
+                            <p>❌ فشل في تحميل البيانات</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Check authentication
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = "index.html";
+            } else {
+                fetchAPIs();
+            }
+        });
+    </script>
+</body>
+</html>
