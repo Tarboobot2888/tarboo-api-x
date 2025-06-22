@@ -6,8 +6,7 @@
     <title>TARBOO API Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
-    <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&display=swap');
         
@@ -34,17 +33,10 @@
             position: relative;
         }
         
-        body::before {
-            content: '';
+        #particles-js {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(74, 0, 224, 0.2) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(142, 45, 226, 0.2) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(0, 205, 172, 0.1) 0%, transparent 30%);
             z-index: -1;
         }
         
@@ -60,101 +52,32 @@
             justify-content: center;
             flex-direction: column;
             gap: 20px;
-            overflow: hidden;
         }
         
-        .splash-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #4A00E0, #8E2DE2, #0F0A31);
-            opacity: 0.8;
-            z-index: -1;
-        }
-        
-        .splash-logo {
-            width: 180px;
-            height: 180px;
+        .logo {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 50px rgba(79, 70, 229, 0.9);
-            margin-bottom: 30px;
-            animation: pulse 3s infinite alternate;
-            position: relative;
-            z-index: 2;
+            box-shadow: 0 0 30px rgba(79, 70, 229, 0.7);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite alternate;
         }
         
         @keyframes pulse {
-            0% { 
-                transform: scale(0.95); 
-                box-shadow: 0 0 30px rgba(79, 70, 229, 0.7); 
-            }
-            100% { 
-                transform: scale(1.05); 
-                box-shadow: 0 0 80px rgba(79, 70, 229, 0.9); 
-            }
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(79, 70, 229, 0.7); }
+            100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(79, 70, 229, 0.9); }
         }
         
-        .splash-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            text-align: center;
-            background: linear-gradient(to right, #8E2DE2, #4A00E0, #00CDAC);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(142, 45, 226, 0.5);
-            animation: glow 2s infinite alternate;
-            position: relative;
-            z-index: 2;
+        .glow-title {
+            text-shadow: 0 0 15px #fff, 0 0 30px var(--primary), 0 0 45px var(--primary);
+            animation: glow 1.5s infinite alternate;
         }
         
         @keyframes glow {
-            0% { text-shadow: 0 0 10px rgba(142, 45, 226, 0.5); }
-            100% { text-shadow: 0 0 30px rgba(142, 45, 226, 0.8); }
-        }
-        
-        .splash-subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 600px;
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .splash-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
-        
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            animation: float 15s infinite linear;
-        }
-        
-        @keyframes float {
-            0% { 
-                transform: translateY(100vh) rotate(0deg); 
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { 
-                transform: translateY(-100px) rotate(360deg); 
-                opacity: 0;
-            }
+            from { text-shadow: 0 0 10px #fff, 0 0 20px var(--primary); }
+            to { text-shadow: 0 0 20px #fff, 0 0 40px var(--secondary); }
         }
         
         .gradient-text {
@@ -174,8 +97,8 @@
         .btn-primary {
             position: relative;
             display: inline-block;
-            padding: 14px 42px;
-            font-size: 1.1rem;
+            padding: 12px 36px;
+            font-size: 1rem;
             font-weight: 700;
             color: #fff;
             text-transform: uppercase;
@@ -185,11 +108,10 @@
             background: linear-gradient(270deg, var(--primary), var(--secondary), #FF9068, var(--accent));
             background-size: 800% 800%;
             animation: gradientMove 8s ease infinite;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.7);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             overflow: hidden;
-            z-index: 2;
         }
         
         .btn-primary::before {
@@ -225,23 +147,77 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
         
-        .nav-container {
-            background: rgba(15, 10, 49, 0.8);
+        .api-type-btn {
+            position: relative;
+            display: block;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 1rem;
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .api-type-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(74,0,224,0.5), rgba(142,45,226,0.5));
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+        
+        .api-type-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .api-type-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .api-type-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.7);
+        }
+        
+        .chat-container {
+            background: rgba(255 255 255 / 0.1);
+            backdrop-filter: blur(14px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        
+        .user-msg {
+            background: linear-gradient(90deg, rgba(37,99,235,0.8), rgba(59, 130, 246, 0.8));
+            margin-left: auto;
+        }
+        
+        .bot-msg {
+            background: rgba(31,41,55,0.8);
+            margin-right: auto;
+        }
+        
+        .error-msg {
+            background: rgba(185,28,28,0.8);
+            margin-right: auto;
         }
         
         .nav-link {
             position: relative;
-            padding: 0.8rem 1.2rem;
+            padding: 0.5rem 1rem;
             transition: all 0.3s ease;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .nav-link:hover {
-            color: white;
         }
         
         .nav-link::after {
@@ -250,7 +226,7 @@
             bottom: 0;
             left: 0;
             width: 0;
-            height: 3px;
+            height: 2px;
             background: linear-gradient(90deg, var(--primary), var(--accent));
             transition: width 0.3s ease;
         }
@@ -259,33 +235,54 @@
             width: 100%;
         }
         
-        .nav-link.active {
-            color: white;
-        }
-        
-        .nav-link.active::after {
-            width: 100%;
-        }
-        
         .auth-container {
             max-width: 500px;
             margin: 5rem auto;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
         
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .auth-tab.active {
+            background: rgba(74, 0, 224, 0.2);
+        }
+        
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+        
         .form-input {
             width: 100%;
-            padding: 0.9rem 1.2rem;
-            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
-            font-size: 1rem;
         }
         
         .form-input:focus {
@@ -294,183 +291,107 @@
             box-shadow: 0 0 0 3px rgba(0, 205, 172, 0.3);
         }
         
-        .social-login-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            font-size: 1.2rem;
-        }
-        
-        .social-login-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .dashboard-container {
-            display: none;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-        
-        .dashboard-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 1.8rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .admin-container {
-            display: none;
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-        
-        .admin-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .admin-table th {
-            background: rgba(74, 0, 224, 0.3);
-            padding: 1.2rem 1.5rem;
-            text-align: right;
-            font-weight: 600;
-        }
-        
-        .admin-table td {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .admin-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .admin-table tr:hover td {
-            background: rgba(255, 255, 255, 0.03);
-        }
-        
-        .status-badge {
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        
-        .status-active {
-            background: rgba(0, 205, 172, 0.2);
-            color: #00CDAC;
-        }
-        
-        .status-inactive {
-            background: rgba(255, 0, 77, 0.2);
-            color: #FF004D;
-        }
-        
-        .action-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-edit {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3B82F6;
-        }
-        
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.2);
-            color: #EF4444;
-        }
-        
-        .btn-view {
-            background: rgba(139, 92, 246, 0.2);
-            color: #8B5CF6;
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .api-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.8rem;
-        }
-        
         .api-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
         
         .api-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             border-color: rgba(255, 255, 255, 0.2);
         }
         
-        .api-header {
+        .api-card-img {
+            height: 180px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            padding: 1.5rem;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
         }
         
-        .api-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: white;
+        .social-login-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
-        .api-content {
-            padding: 1.5rem;
+        .social-login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-panel {
+            background: rgba(15, 10, 49, 0.9);
+            min-height: 100vh;
+        }
+        
+        .admin-nav {
+            background: rgba(9, 5, 32, 0.8);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .admin-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .api-table th {
+            background: rgba(74, 0, 224, 0.2);
+            padding: 12px 15px;
+            text-align: right;
+        }
+        
+        .api-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .api-table tr:hover {
+            background: rgba(74, 0, 224, 0.1);
         }
         
         @media (max-width: 768px) {
-            .splash-title {
-                font-size: 2.5rem;
+            .logo {
+                width: 120px;
+                height: 120px;
             }
             
-            .splash-subtitle {
-                font-size: 1.2rem;
+            .auth-container {
+                margin: 2rem auto;
+                width: 90%;
             }
             
-            .splash-logo {
-                width: 140px;
-                height: 140px;
+            .auth-tabs {
+                flex-direction: column;
             }
             
-            .nav-link {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.9rem;
+            .api-table {
+                display: block;
+                overflow-x: auto;
             }
         }
     </style>
@@ -478,35 +399,32 @@
 <body>
     <!-- Splash Screen -->
     <div id="splash" class="splash-screen">
-        <div class="splash-bg"></div>
-        <div class="splash-particles" id="particles"></div>
-        
-        <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="splash-logo">
-        <h1 class="splash-title">TARBOO API</h1>
-        <p class="splash-subtitle">منصة متكاملة لتطوير التطبيقات باستخدام واجهات برمجة التطبيقات المتقدمة</p>
+        <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="logo">
+        <h1 class="text-4xl font-bold mb-4 glow-title">TARBOO API 🚀</h1>
+        <p class="text-xl text-gray-300 mb-8">مركز واجهات برمجة التطبيقات المتقدمة</p>
         <button onclick="enterSite()" class="btn-primary"><span>دخول الموقع</span></button>
     </div>
 
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
     <!-- Navigation -->
-    <nav class="nav-container py-4 px-6 flex justify-between items-center">
+    <nav class="py-4 px-6 flex justify-between items-center">
         <div class="flex items-center">
             <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="w-12 h-12 rounded-full mr-3">
             <h1 class="text-2xl font-bold gradient-text">TARBOO API</h1>
         </div>
         
-        <div class="hidden md:flex space-x-4">
-            <a href="#" class="nav-link active" id="nav-home">الرئيسية</a>
-            <a href="#features" class="nav-link" id="nav-features">الميزات</a>
-            <a href="#apis" class="nav-link" id="nav-apis">واجهات API</a>
-            <a href="#contact" class="nav-link" id="nav-contact">تواصل معنا</a>
+        <div class="hidden md:flex space-x-6">
+            <a href="#" class="nav-link">الرئيسية</a>
+            <a href="#features" class="nav-link">الميزات</a>
+            <a href="#apis" class="nav-link">واجهات API</a>
+            <a href="#contact" class="nav-link">تواصل معنا</a>
         </div>
         
         <div class="flex items-center space-x-4">
             <button id="auth-btn" class="text-sm bg-white/10 hover:bg-white/20 py-2 px-4 rounded-full transition">
                 <i class="fas fa-user mr-2"></i>تسجيل الدخول
-            </button>
-            <button id="logout-btn" class="text-sm bg-red-500/20 hover:bg-red-500/30 py-2 px-4 rounded-full transition hidden">
-                <i class="fas fa-sign-out-alt mr-2"></i>تسجيل الخروج
             </button>
             <button class="md:hidden text-xl">
                 <i class="fas fa-bars"></i>
@@ -514,417 +432,175 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8" id="main-content">
-        <!-- Login Section -->
-        <div id="login-section" class="max-w-4xl mx-auto py-12">
+    <!-- Hero Section -->
+    <section class="py-20 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                <span class="gradient-text">TARBOO API</span> مركز واجهات برمجة التطبيقات
+            </h1>
+            <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                استكشف مجموعة واسعة من واجهات برمجة التطبيقات القوية التي توفر حلولاً متقدمة لمشاريعك التقنية
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="document.getElementById('auth-btn').click()" class="btn-primary">
+                    <i class="fas fa-rocket mr-2"></i>ابدأ الآن
+                </button>
+                <a href="#" class="py-3 px-6 bg-white/10 hover:bg-white/20 rounded-full transition">
+                    <i class="fas fa-book mr-2"></i>تصفح الوثائق
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Types Section -->
+    <section id="apis" class="py-16 px-6 bg-gradient-to-b from-transparent to-[#0f0a3180]">
+        <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">مرحباً بك في منصة TARBOO API</h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                    قم بتسجيل الدخول للوصول إلى واجهات برمجة التطبيقات المتقدمة وبدء تطوير مشاريعك
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">أنواع واجهات API</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    اكتشف مجموعتنا المتنوعة من واجهات برمجة التطبيقات المصممة لتلبية احتياجات مشاريعك المختلفة
                 </p>
             </div>
             
-            <div class="glass-card p-8 max-w-lg mx-auto">
-                <form id="login-form" class="space-y-6">
-                    <div>
-                        <label class="block mb-2 text-gray-300 text-lg">البريد الإلكتروني</label>
-                        <input type="email" id="email" required class="form-input" placeholder="example@domain.com">
-                    </div>
-                    
-                    <div>
-                        <label class="block mb-2 text-gray-300 text-lg">كلمة المرور</label>
-                        <input type="password" id="password" required class="form-input" placeholder="••••••••">
-                    </div>
-                    
-                    <button type="submit" class="btn-primary w-full py-4 mt-4">
-                        <i class="fas fa-sign-in-alt mr-2"></i>تسجيل الدخول
-                    </button>
-                    
-                    <div class="text-center text-gray-400 my-6">أو</div>
-                    
-                    <div class="flex justify-center gap-6">
-                        <div class="social-login-btn bg-white" id="google-login">
-                            <i class="fab fa-google text-red-500"></i>
-                        </div>
-                        <div class="social-login-btn bg-gray-800" id="github-login">
-                            <i class="fab fa-github text-white"></i>
-                        </div>
-                    </div>
-                </form>
-                
-                <div id="auth-message" class="mt-6 text-center text-lg"></div>
+            <div class="mb-8">
+                <div class="relative max-w-2xl mx-auto">
+                    <input 
+                        type="text" 
+                        id="search-input"
+                        placeholder="ابحث عن API..."
+                        class="w-full p-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 form-input"
+                    >
+                    <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-white/70"></i>
+                </div>
             </div>
+            
+            <div id="message" class="text-center text-gray-400 py-10">
+                <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+                <p>جارٍ تحميل البيانات...</p>
+            </div>
+            
+            <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
-        
-        <!-- Dashboard Section -->
-        <div id="dashboard-section" class="dashboard-container">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">لوحة تحكم المستخدم</h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                    استكشف واجهات برمجة التطبيقات المتاحة وأبدأ في تطوير مشاريعك
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">مميزات منصتنا</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    اكتشف لماذا يختار المطورون منصة TARBOO API لتطوير مشاريعهم
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="dashboard-card">
-                    <div class="flex items-center mb-4">
-                        <div class="w-14 h-14 rounded-full bg-[#4A00E0] flex items-center justify-center mr-4">
-                            <i class="fas fa-code text-2xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">واجهات API</h3>
-                            <p class="text-gray-400">استكشف جميع الواجهات المتاحة</p>
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8">
+                    <div class="w-16 h-16 rounded-full bg-[#4A00E0] flex items-center justify-center mb-6">
+                        <i class="fas fa-bolt text-2xl"></i>
                     </div>
-                    <div class="text-3xl font-bold text-center py-4">24</div>
-                    <button class="w-full py-3 bg-[#4A00E0] hover:bg-[#3a00b8] rounded-lg mt-2">
-                        <i class="fas fa-arrow-left mr-2"></i>استعراض الواجهات
-                    </button>
+                    <h3 class="text-xl font-bold mb-3">أداء فائق السرعة</h3>
+                    <p class="text-gray-300">
+                        واجهات برمجة التطبيقات مصممة لتقديم استجابات فائقة السرعة مع زمن انتقال أقل من 50 مللي ثانية
+                    </p>
                 </div>
                 
-                <div class="dashboard-card">
-                    <div class="flex items-center mb-4">
-                        <div class="w-14 h-14 rounded-full bg-[#8E2DE2] flex items-center justify-center mr-4">
-                            <i class="fas fa-project-diagram text-2xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">المشاريع</h3>
-                            <p class="text-gray-400">إدارة مشاريعك الحالية</p>
-                        </div>
+                <div class="glass-card p-8">
+                    <div class="w-16 h-16 rounded-full bg-[#8E2DE2] flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-2xl"></i>
                     </div>
-                    <div class="text-3xl font-bold text-center py-4">5</div>
-                    <button class="w-full py-3 bg-[#8E2DE2] hover:bg-[#7a25c9] rounded-lg mt-2">
-                        <i class="fas fa-arrow-left mr-2"></i>إدارة المشاريع
-                    </button>
+                    <h3 class="text-xl font-bold mb-3">أمان متقدم</h3>
+                    <p class="text-gray-300">
+                        أنظمة حماية متعددة الطبقات تشمل تشفير البيانات والمصادقة متعددة العوامل
+                    </p>
                 </div>
                 
-                <div class="dashboard-card">
-                    <div class="flex items-center mb-4">
-                        <div class="w-14 h-14 rounded-full bg-[#00CDAC] flex items-center justify-center mr-4">
-                            <i class="fas fa-cogs text-2xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">الإعدادات</h3>
-                            <p class="text-gray-400">تخصيص حسابك وإعداداته</p>
-                        </div>
+                <div class="glass-card p-8">
+                    <div class="w-16 h-16 rounded-full bg-[#00CDAC] flex items-center justify-center mb-6">
+                        <i class="fas fa-sync-alt text-2xl"></i>
                     </div>
-                    <div class="text-3xl font-bold text-center py-4">-</div>
-                    <button class="w-full py-3 bg-[#00CDAC] hover:bg-[#00b89c] rounded-lg mt-2">
-                        <i class="fas fa-arrow-left mr-2"></i>تعديل الإعدادات
-                    </button>
-                </div>
-            </div>
-            
-            <div class="glass-card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-bold">واجهات برمجة التطبيقات المتاحة</h3>
-                    <div class="flex space-x-2">
-                        <button class="py-2 px-4 bg-[#4A00E0] hover:bg-[#3a00b8] rounded-lg">
-                            <i class="fas fa-sync-alt mr-2"></i>تحديث
-                        </button>
-                        <button class="py-2 px-4 bg-[#00CDAC] hover:bg-[#00b89c] rounded-lg">
-                            <i class="fas fa-plus mr-2"></i>جديد
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="api-grid">
-                    <div class="api-card">
-                        <div class="api-header">
-                            <div class="api-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h4 class="text-xl font-bold">إدارة المستخدمين</h4>
-                        </div>
-                        <div class="api-content">
-                            <p class="text-gray-300 mb-4">واجهة متكاملة لإدارة المستخدمين وتفاصيل الحسابات</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">النوع: نظام</span>
-                                <button class="btn-view action-btn">
-                                    <i class="fas fa-eye mr-1"></i>عرض
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="api-card">
-                        <div class="api-header">
-                            <div class="api-icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                            <h4 class="text-xl font-bold">التجارة الإلكترونية</h4>
-                        </div>
-                        <div class="api-content">
-                            <p class="text-gray-300 mb-4">واجهة متكاملة لإدارة المتاجر الإلكترونية والمنتجات</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">النوع: تجاري</span>
-                                <button class="btn-view action-btn">
-                                    <i class="fas fa-eye mr-1"></i>عرض
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="api-card">
-                        <div class="api-header">
-                            <div class="api-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <h4 class="text-xl font-bold">الدردشة المباشرة</h4>
-                        </div>
-                        <div class="api-content">
-                            <p class="text-gray-300 mb-4">واجهة برمجة تطبيقات للدردشة الفورية والمحادثات</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">النوع: تواصل</span>
-                                <button class="btn-view action-btn">
-                                    <i class="fas fa-eye mr-1"></i>عرض
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="text-xl font-bold mb-3">تحديثات مستمرة</h3>
+                    <p class="text-gray-300">
+                        تحسينات وتحديثات مستمرة تضمن لك الحصول على أفضل تجربة وأحدث الميزات
+                    </p>
                 </div>
             </div>
         </div>
-        
-        <!-- Admin Dashboard -->
-        <div id="admin-section" class="admin-container">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">لوحة تحكم المطور</h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                    إدارة المنصة والمستخدمين والإعدادات المتقدمة
-                </p>
+    </section>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="auth-container">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold gradient-text">مرحبًا بك في TARBOO</h2>
+                <button id="close-auth" class="text-2xl hover:text-red-400 transition">&times;</button>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="dashboard-card">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-[#4A00E0] flex items-center justify-center mr-4">
-                            <i class="fas fa-users text-xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold">المستخدمون</h3>
-                            <p class="text-2xl font-bold mt-1">1,248</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-[#8E2DE2] flex items-center justify-center mr-4">
-                            <i class="fas fa-code text-xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold">واجهات API</h3>
-                            <p class="text-2xl font-bold mt-1">24</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-[#00CDAC] flex items-center justify-center mr-4">
-                            <i class="fas fa-project-diagram text-xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold">المشاريع</h3>
-                            <p class="text-2xl font-bold mt-1">356</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-[#FF9068] flex items-center justify-center mr-4">
-                            <i class="fas fa-server text-xl text-white"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold">الخوادم</h3>
-                            <p class="text-2xl font-bold mt-1">12</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">تسجيل الدخول</div>
+                <div class="auth-tab" data-tab="register">إنشاء حساب</div>
             </div>
             
-            <div class="glass-card p-6 mb-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-bold">إدارة المستخدمين</h3>
-                    <div class="flex space-x-2">
-                        <button class="py-2 px-4 bg-[#4A00E0] hover:bg-[#3a00b8] rounded-lg">
-                            <i class="fas fa-sync-alt mr-2"></i>تحديث
-                        </button>
-                        <button class="py-2 px-4 bg-[#00CDAC] hover:bg-[#00b89c] rounded-lg">
-                            <i class="fas fa-plus mr-2"></i>مستخدم جديد
-                        </button>
-                    </div>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block mb-2 text-gray-300">البريد الإلكتروني</label>
+                    <input id="login-email" type="email" required class="form-input" placeholder="example@domain.com">
                 </div>
                 
-                <div class="overflow-x-auto">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>المستخدم</th>
-                                <th>البريد الإلكتروني</th>
-                                <th>الدور</th>
-                                <th>الحالة</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="flex items-center">
-                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full mr-3">
-                                        <div>
-                                            <div class="font-medium">محمد أحمد</div>
-                                            <div class="text-sm text-gray-400">@mohamed_ahmed</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>mohamed@example.com</td>
-                                <td>مستخدم عادي</td>
-                                <td><span class="status-badge status-active">نشط</span></td>
-                                <td>
-                                    <div class="flex space-x-2">
-                                        <button class="btn-edit action-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-delete action-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="flex items-center">
-                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
-                                        <div>
-                                            <div class="font-medium">سارة محمد</div>
-                                            <div class="text-sm text-gray-400">@sara_mohamed</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>sara@example.com</td>
-                                <td>مطور</td>
-                                <td><span class="status-badge status-active">نشط</span></td>
-                                <td>
-                                    <div class="flex space-x-2">
-                                        <button class="btn-edit action-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-delete action-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="flex items-center">
-                                        <img src="https://randomuser.me/api/portraits/men/67.jpg" class="w-10 h-10 rounded-full mr-3">
-                                        <div>
-                                            <div class="font-medium">علي حسن</div>
-                                            <div class="text-sm text-gray-400">@ali_hasan</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>ali@example.com</td>
-                                <td>مدير</td>
-                                <td><span class="status-badge status-inactive">غير نشط</span></td>
-                                <td>
-                                    <div class="flex space-x-2">
-                                        <button class="btn-edit action-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-delete action-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="flex items-center">
-                                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full mr-3">
-                                        <div>
-                                            <div class="font-medium">فاطمة عمر</div>
-                                            <div class="text-sm text-gray-400">@fatima_omar</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>fatima@example.com</td>
-                                <td>مستخدم عادي</td>
-                                <td><span class="status-badge status-active">نشط</span></td>
-                                <td>
-                                    <div class="flex space-x-2">
-                                        <button class="btn-edit action-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-delete action-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div>
+                    <label class="block mb-2 text-gray-300">كلمة المرور</label>
+                    <input id="login-password" type="password" required class="form-input" placeholder="••••••••">
                 </div>
-            </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 mt-4">
+                    <i class="fas fa-sign-in-alt mr-2"></i>دخول
+                </button>
+                
+                <div class="text-center text-gray-400 my-4">أو</div>
+                
+                <div class="flex justify-center gap-4">
+                    <div class="social-login-btn bg-white" id="google-login">
+                        <i class="fab fa-google text-red-500 text-xl"></i>
+                    </div>
+                    <div class="social-login-btn bg-gray-800" id="github-login">
+                        <i class="fab fa-github text-white text-xl"></i>
+                    </div>
+                </div>
+            </form>
             
-            <div class="glass-card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-bold">واجهات برمجة التطبيقات</h3>
-                    <div class="flex space-x-2">
-                        <button class="py-2 px-4 bg-[#4A00E0] hover:bg-[#3a00b8] rounded-lg">
-                            <i class="fas fa-sync-alt mr-2"></i>تحديث
-                        </button>
-                        <button class="py-2 px-4 bg-[#00CDAC] hover:bg-[#00b89c] rounded-lg">
-                            <i class="fas fa-plus mr-2"></i>واجهة جديدة
-                        </button>
-                    </div>
+            <form id="register-form" class="space-y-4 hidden">
+                <div>
+                    <label class="block mb-2 text-gray-300">البريد الإلكتروني</label>
+                    <input id="register-email" type="email" required class="form-input" placeholder="example@domain.com">
                 </div>
                 
-                <div class="api-grid">
-                    <div class="api-card">
-                        <div class="api-header">
-                            <div class="api-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <h4 class="text-xl font-bold">قاعدة البيانات</h4>
-                        </div>
-                        <div class="api-content">
-                            <p class="text-gray-300 mb-4">واجهة متكاملة لإدارة قواعد البيانات والاستعلامات</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">النوع: نظام</span>
-                                <button class="btn-view action-btn">
-                                    <i class="fas fa-eye mr-1"></i>عرض
-                                </button>
-                            </div>
-                        </div>
+                <div>
+                    <label class="block mb-2 text-gray-300">كلمة المرور</label>
+                    <input id="register-password" type="password" required class="form-input" placeholder="••••••••">
+                </div>
+                
+                <div>
+                    <label class="block mb-2 text-gray-300">تأكيد كلمة المرور</label>
+                    <input id="confirm-password" type="password" required class="form-input" placeholder="••••••••">
+                </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 mt-4">
+                    <i class="fas fa-user-plus mr-2"></i>إنشاء حساب
+                </button>
+                
+                <div class="text-center text-gray-400 my-4">أو</div>
+                
+                <div class="flex justify-center gap-4">
+                    <div class="social-login-btn bg-white" id="google-register">
+                        <i class="fab fa-google text-red-500 text-xl"></i>
                     </div>
-                    
-                    <div class="api-card">
-                        <div class="api-header">
-                            <div class="api-icon">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <h4 class="text-xl font-bold">المدفوعات</h4>
-                        </div>
-                        <div class="api-content">
-                            <p class="text-gray-300 mb-4">واجهة متكاملة لإدارة عمليات الدفع والتحصيل</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">النوع: مالي</span>
-                                <button class="btn-view action-btn">
-                                    <i class="fas fa-eye mr-1"></i>عرض
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="api-card">
-                        <div class="api-header">
-                            <div class="api-icon">
-                                <i class="fas fa-map-marked-alt"></i>
-                            </div>
-                            <h4 class="text-xl font-bold">الخرائط</h4>
-                        </div>
-                        <div class="api-content">
-                            <p class="text-gray-300 mb-4">واجهة برمجة تطبيقات للخرائط والمواقع الجغرافية</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">النوع: جغرافي</span>
-                                <button class="btn-view action-btn">
-                                    <i class="fas fa-eye mr-1"></i>عرض
-                                </button>
-                            </div>
-                        </div>
+                    <div class="social-login-btn bg-gray-800" id="github-register">
+                        <i class="fab fa-github text-white text-xl"></i>
                     </div>
                 </div>
-            </div>
+            </form>
+            
+            <div id="auth-message" class="mt-6 text-center"></div>
         </div>
     </div>
 
@@ -972,7 +648,7 @@
                     <p class="text-gray-400 mb-4">كن أول من يعرف عن التحديثات والميزات الجديدة</p>
                     <div class="flex">
                         <input type="email" id="newsletter-email" placeholder="بريدك الإلكتروني" class="form-input rounded-r-none">
-                        <button class="bg-[#4A00E0] hover:bg-[#3a00b8] px-4 rounded-r-lg">
+                        <button onclick="subscribeNewsletter()" class="bg-[#4A00E0] hover:bg-[#3a00b8] px-4 rounded-r-lg">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -985,150 +661,553 @@
         </div>
     </footer>
 
-    <script>
-        // إنشاء جزيئات الشاشة الترحيبية
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 30;
+    <!-- Developer Panel (Hidden by default) -->
+    <div id="developer-panel" class="admin-panel hidden fixed inset-0 z-50 overflow-auto">
+        <div class="admin-nav py-4 px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="w-10 h-10 rounded-full mr-3">
+                <h1 class="text-xl font-bold gradient-text">لوحة تحكم المطور</h1>
+            </div>
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // أحجام وألوان عشوائية
-                const size = Math.random() * 10 + 5;
-                const color = `rgba(255, 255, 255, ${Math.random() * 0.6 + 0.2})`;
-                
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.background = color;
-                
-                // مواضع عشوائية
-                const left = Math.random() * 100;
-                particle.style.left = `${left}%`;
-                
-                // تأخيرات عشوائية للحركة
-                const delay = Math.random() * 15;
-                particle.style.animationDelay = `${delay}s`;
-                
-                container.appendChild(particle);
-            }
-        }
+            <div class="flex items-center space-x-4">
+                <button id="logout-btn" class="text-sm bg-red-600 hover:bg-red-700 py-2 px-4 rounded-full transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>تسجيل الخروج
+                </button>
+            </div>
+        </div>
         
-        // دالة الدخول للموقع
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-6">مرحبًا، Mahmoud Tarboo</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="admin-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#4A00E0] flex items-center justify-center mr-3">
+                            <i class="fas fa-users text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">المستخدمون</h3>
+                            <p class="text-gray-400">إدارة جميع المستخدمين</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-bold" id="users-count">0</span>
+                        <p class="text-gray-400">مستخدم مسجل</p>
+                    </div>
+                </div>
+                
+                <div class="admin-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#8E2DE2] flex items-center justify-center mr-3">
+                            <i class="fas fa-code text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">واجهات API</h3>
+                            <p class="text-gray-400">إدارة جميع الـ APIs</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-bold" id="apis-count">0</span>
+                        <p class="text-gray-400">واجهة برمجة</p>
+                    </div>
+                </div>
+                
+                <div class="admin-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#00CDAC] flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">إحصائيات الاستخدام</h3>
+                            <p class="text-gray-400">مراقبة أداء النظام</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-bold" id="requests-count">0</span>
+                        <p class="text-gray-400">طلب هذا الشهر</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card p-6 mb-8">
+                <h3 class="text-xl font-bold mb-4">إدارة المستخدمين</h3>
+                <div class="overflow-x-auto">
+                    <table class="api-table w-full">
+                        <thead>
+                            <tr>
+                                <th>البريد الإلكتروني</th>
+                                <th>تاريخ التسجيل</th>
+                                <th>الدور</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="glass-card p-6">
+                <h3 class="text-xl font-bold mb-4">إدارة واجهات API</h3>
+                <div class="overflow-x-auto">
+                    <table class="api-table w-full">
+                        <thead>
+                            <tr>
+                                <th>اسم الـ API</th>
+                                <th>النوع</th>
+                                <th>المسار</th>
+                                <th>الطلبات</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="apis-table">
+                            <!-- APIs will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Dashboard (Hidden by default) -->
+    <div id="user-dashboard" class="admin-panel hidden fixed inset-0 z-50 overflow-auto">
+        <div class="admin-nav py-4 px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="w-10 h-10 rounded-full mr-3">
+                <h1 class="text-xl font-bold gradient-text">لوحة تحكم المستخدم</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="user-logout-btn" class="text-sm bg-red-600 hover:bg-red-700 py-2 px-4 rounded-full transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>تسجيل الخروج
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-6">مرحبًا، <span id="user-name">المستخدم</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="admin-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#4A00E0] flex items-center justify-center mr-3">
+                            <i class="fas fa-key text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">مفتاح API</h3>
+                            <p class="text-gray-400">مفتاح الوصول الخاص بك</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-400 mb-2">استخدم هذا المفتاح للوصول إلى الـ APIs</p>
+                        <div class="flex items-center">
+                            <code class="bg-gray-800 text-green-400 p-2 rounded-lg flex-1" id="api-key">********************</code>
+                            <button class="ml-2 p-2 bg-purple-600 rounded-lg" onclick="copyApiKey()">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#8E2DE2] flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-bar text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">إحصائيات الاستخدام</h3>
+                            <p class="text-gray-400">مراقبة استخدامك للـ API</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-bold" id="user-requests">0</span>
+                        <p class="text-gray-400">طلب هذا الشهر</p>
+                    </div>
+                </div>
+                
+                <div class="admin-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#00CDAC] flex items-center justify-center mr-3">
+                            <i class="fas fa-history text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">سجل النشاط</h3>
+                            <p class="text-gray-400">آخر العمليات التي قمت بها</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-3xl font-bold" id="activity-count">0</span>
+                        <p class="text-gray-400">عملية هذا الشهر</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card p-6">
+                <h3 class="text-xl font-bold mb-4">واجهات API المتاحة</h3>
+                <div class="overflow-x-auto">
+                    <table class="api-table w-full">
+                        <thead>
+                            <tr>
+                                <th>اسم الـ API</th>
+                                <th>النوع</th>
+                                <th>المسار</th>
+                                <th>الطلبات المتبقية</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-apis-table">
+                            <!-- User APIs will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Initialize Particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#8E2DE2" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#4A00E0",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            }
+        });
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCrhxWtxRjeyCPGRUD3WAOCRS0yNqvq27E",
+            authDomain: "tarboo-api-914ea.firebaseapp.com",
+            projectId: "tarboo-api-914ea",
+            storageBucket: "tarboo-api-914ea.appspot.com",
+            messagingSenderId: "668697346516",
+            appId: "1:668697346516:web:243f646ae8998c2ce61641",
+            measurementId: "G-KCQ8HXQKJB"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Function to enter the site
         function enterSite() {
             const splash = document.getElementById("splash");
             gsap.to(splash, {
                 opacity: 0,
-                duration: 1.5,
+                duration: 1,
                 ease: "power2.out",
                 onComplete: () => {
                     splash.style.display = "none";
                 },
             });
         }
-        
-        // نظام تسجيل الدخول
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const message = document.getElementById('auth-message');
-            
-            // مسح أي رسالة سابقة
-            message.textContent = '';
-            message.className = 'mt-6 text-center';
-            
-            // التحقق من بيانات المطور
-            if (email === 'mahmoudtarboo09@gmail.com' && password === 'tarboo') {
-                message.innerHTML = '<span class="text-green-500">✅ تم تسجيل دخول المطور بنجاح!</span>';
-                setTimeout(() => {
-                    document.getElementById('admin-section').style.display = 'block';
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                }, 1500);
-            } 
-            // التحقق من بيانات المستخدم العادي
-            else if (email && password) {
-                message.innerHTML = '<span class="text-green-500">✅ تم تسجيل الدخول بنجاح!</span>';
-                setTimeout(() => {
-                    document.getElementById('dashboard-section').style.display = 'block';
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                }, 1500);
-            } else {
-                message.innerHTML = '<span class="text-red-500">❌ يرجى إدخال البريد الإلكتروني وكلمة المرور</span>';
-            }
+
+        // Authentication functions
+        document.getElementById('auth-btn').addEventListener('click', () => {
+            document.getElementById('auth-modal').classList.remove('hidden');
         });
         
-        // تسجيل الدخول باستخدام جوجل
-        document.getElementById('google-login').addEventListener('click', function() {
-            const message = document.getElementById('auth-message');
-            message.innerHTML = '<span class="text-blue-500"><i class="fas fa-spinner fa-spin mr-2"></i>جارٍ تسجيل الدخول باستخدام جوجل...</span>';
-            
-            setTimeout(() => {
-                message.innerHTML = '<span class="text-green-500">✅ تم تسجيل الدخول باستخدام جوجل بنجاح!</span>';
-                setTimeout(() => {
-                    document.getElementById('dashboard-section').style.display = 'block';
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                }, 1500);
-            }, 2000);
+        document.getElementById('close-auth').addEventListener('click', () => {
+            document.getElementById('auth-modal').classList.add('hidden');
         });
         
-        // تسجيل الدخول باستخدام جيت هاب
-        document.getElementById('github-login').addEventListener('click', function() {
-            const message = document.getElementById('auth-message');
-            message.innerHTML = '<span class="text-blue-500"><i class="fas fa-spinner fa-spin mr-2"></i>جارٍ تسجيل الدخول باستخدام جيت هاب...</span>';
-            
-            setTimeout(() => {
-                message.innerHTML = '<span class="text-green-500">✅ تم تسجيل الدخول باستخدام جيت هاب بنجاح!</span>';
-                setTimeout(() => {
-                    document.getElementById('dashboard-section').style.display = 'block';
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                }, 1500);
-            }, 2000);
-        });
-        
-        // تسجيل الخروج
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            document.getElementById('dashboard-section').style.display = 'none';
-            document.getElementById('admin-section').style.display = 'none';
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('logout-btn').classList.add('hidden');
-            
-            // إعادة تعيين حقول الدخول
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
-            
-            const message = document.getElementById('auth-message');
-            message.innerHTML = '<span class="text-blue-500">تم تسجيل الخروج بنجاح</span>';
-            setTimeout(() => {
-                message.textContent = '';
-            }, 3000);
-        });
-        
-        // التنقل بين الأقسام
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+        // Switch between login and register forms
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
                 
-                // إزالة النشط من جميع الروابط
-                document.querySelectorAll('.nav-link').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // إضافة النشط للرابط الحالي
-                this.classList.add('active');
-                
-                // يمكنك هنا إضافة كود لتحميل المحتوى المناسب
+                document.getElementById('login-form').classList.toggle('hidden', tab.dataset.tab !== 'login');
+                document.getElementById('register-form').classList.toggle('hidden', tab.dataset.tab !== 'register');
             });
         });
         
-        // إنشاء الجزيئات عند تحميل الصفحة
-        window.addEventListener('load', createParticles);
-    </script>
-</body>
-</html>
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const authMessage = document.getElementById('auth-message');
+            
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                
+                // Check if it's the developer account
+                if (email === "mahmoudtarboo09@gmail.com" && password === "tarboo") {
+                    showDeveloperPanel();
+                } else {
+                    showUserDashboard(userCredential.user);
+                }
+                
+                authMessage.textContent = 'تم الدخول بنجاح!';
+                authMessage.className = 'mt-6 text-center text-green-400';
+                
+                setTimeout(() => {
+                    document.getElementById('auth-modal').classList.add('hidden');
+                    document.getElementById('auth-btn').innerHTML = `<i class="fas fa-user mr-2"></i>${userCredential.user.email}`;
+                }, 1500);
+            } catch (error) {
+                authMessage.textContent = getAuthError(error.code);
+                authMessage.className = 'mt-6 text-center text-red-400';
+            }
+        });
+        
+        // Register form submission
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const authMessage = document.getElementById('auth-message');
+            
+            if(password !== confirmPassword) {
+                authMessage.textContent = 'كلمات المرور غير متطابقة';
+                authMessage.className = 'mt-6 text-center text-red-400';
+                return;
+            }
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Save user data to Firestore
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    email: email,
+                    createdAt: new Date(),
+                    role: 'user',
+                    apiKey: generateApiKey(),
+                    requests: 0
+                });
+                
+                authMessage.textContent = 'تم إنشاء الحساب بنجاح!';
+                authMessage.className = 'mt-6 text-center text-green-400';
+                
+                setTimeout(() => {
+                    document.getElementById('auth-modal').classList.add('hidden');
+                    document.getElementById('auth-btn').innerHTML = `<i class="fas fa-user mr-2"></i>${userCredential.user.email}`;
+                    showUserDashboard(userCredential.user);
+                }, 1500);
+            } catch (error) {
+                authMessage.textContent = getAuthError(error.code);
+                authMessage.className = 'mt-6 text-center text-red-400';
+            }
+        });
+        
+        // Google login
+        document.getElementById('google-login').addEventListener('click', signInWithGoogle);
+        document.getElementById('google-register').addEventListener('click', signInWithGoogle);
+        
+        async function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                
+                // Save user data if it's a new user
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists) {
+                    await db.collection('users').doc(user.uid).set({
+                        email: user.email,
+                        createdAt: new Date(),
+                        role: 'user',
+                        apiKey: generateApiKey(),
+                        requests: 0
+                    });
+                }
+                
+                showUserDashboard(user);
+                showAuthSuccess(user);
+            } catch (error) {
+                showAuthError(error.code);
+            }
+        }
+        
+        // GitHub login
+        document.getElementById('github-login').addEventListener('click', signInWithGitHub);
+        document.getElementById('github-register').addEventListener('click', signInWithGitHub);
+        
+        async function signInWithGitHub() {
+            const provider = new firebase.auth.GithubAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+                
+                // Save user data if it's a new user
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists) {
+                    await db.collection('users').doc(user.uid).set({
+                        email: user.email,
+                        createdAt: new Date(),
+                        role: 'user',
+                        apiKey: generateApiKey(),
+                        requests: 0
+                    });
+                }
+                
+                showUserDashboard(user);
+                showAuthSuccess(user);
+            } catch (error) {
+                showAuthError(error.code);
+            }
+        }
+        
+        // Logout function
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                document.getElementById('developer-panel').classList.add('hidden');
+                location.reload();
+            });
+        });
+        
+        document.getElementById('user-logout-btn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                document.getElementById('user-dashboard').classList.add('hidden');
+                location.reload();
+            });
+        });
+        
+        // Helper function to get authentication error messages
+        function getAuthError(code) {
+            const errors = {
+                'auth/invalid-email': 'بريد إلكتروني غير صالح',
+                'auth/user-not-found': 'الحساب غير موجود',
+                'auth/wrong-password': 'كلمة مرور خاطئة',
+                'auth/email-already-in-use': 'البريد الإلكتروني مستخدم بالفعل',
+                'auth/weak-password': 'كلمة المرور ضعيفة (6 أحرف على الأقل)',
+                'auth/popup-closed-by-user': 'تم إغلاق نافذة المصادقة',
+                'auth/account-exists-with-different-credential': 'هذا البريد الإلكتروني مسجل بالفعل بطريقة أخرى'
+            };
+            return errors[code] || `حدث خطأ غير متوقع: ${code}`;
+        }
+        
+        // Show authentication success
+        function showAuthSuccess(user) {
+            const authMessage = document.getElementById('auth-message');
+            authMessage.textContent = 'تم الدخول بنجاح!';
+            authMessage.className = 'mt-6 text-center text-green-400';
+            
+            setTimeout(() => {
+                document.getElementById('auth-modal').classList.add('hidden');
+                document.getElementById('auth-btn').innerHTML = `<i class="fas fa-user mr-2"></i>${user.email}`;
+            }, 1500);
+        }
+        
+        // Show authentication error
+        function showAuthError(code) {
+            const authMessage = document.getElementById('auth-message');
+            authMessage.textContent = getAuthError(code);
+            authMessage.className = 'mt-6 text-center text-red-400';
+        }
+        
+        // Generate API key
+        function generateApiKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let key = '';
+            for (let i = 0; i < 32; i++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return key;
+        }
+        
+        // Show developer panel
+        function showDeveloperPanel() {
+            document.getElementById('developer-panel').classList.remove('hidden');
+            loadDeveloperData();
+        }
+        
+        // Show user dashboard
+        function showUserDashboard(user) {
+            document.getElementById('user-dashboard').classList.remove('hidden');
+            document.getElementById('user-name').textContent = user.email.split('@')[0];
+            loadUserData(user);
+        }
+        
+        // Load developer data
+        async function loadDeveloperData() {
+            // Simulate loading data
+            document.getElementById('users-count').textContent = "128";
+            document.getElementById('apis-count').textContent = "24";
+            document.getElementById('requests-count').textContent = "12,458";
+            
+            // Load users
+            const usersTable = document.getElementById('users-table');
+            usersTable.innerHTML = `
+                <tr>
+                    <td>mahmoudtarboo09@gmail.com</td>
+                    <td>2023-10-15</td>
+                    <td>مطور</td>
+                    <td><span class="text-green-500">نشط</span></td>
+                    <td>
+                        <button class="text-blue-500 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
+                        <button class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>user1@example.com</td>
+                    <td>2023-10-20</td>
+                    <td>مستخدم</td>
+                    <td><span class="text-green-500">نشط</span></td>
+                    <td>
+                        <button class="text-blue-500 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
+                        <button class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>user2@example.com</td>
+                    <td>2023-10-22</td>
+                    <td>مستخدم</td>
+                    <td><span class="text-yellow-500">معلق</span></td>
+                    <td>
+                        <button class="text-blue-500 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
+                        <button class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+            
+            // Load APIs
+            const apisTable = document.getElementById('apis-table');
+            apisTable.innerHTML = `
+                <tr>
+                    <td>Weather API</td>
+                    <td>الطقس</td>
+                    <td>/api/weather</td>
+                    <td>5,432</td>
+                    <td><span class="text-green-500">نشط</span></td>
+                    <td>
+                        <button class="text-blue-500 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
+                        <button clas
