@@ -1,378 +1,360 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TARBOO API - تسجيل الدخول</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&display=swap');
-        
-        :root {
-            --primary: #4A00E0;
-            --secondary: #8E2DE2;
-            --accent: #00CDAC;
-            --dark: #0F0A31;
-            --darker: #090520;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, var(--darker), var(--dark));
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(74, 0, 224, 0.2) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(142, 45, 226, 0.2) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(0, 205, 172, 0.1) 0%, transparent 30%);
-            z-index: -1;
-        }
-        
-        .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(79, 70, 229, 0.7);
-            animation: pulse 2s infinite alternate;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 30px rgba(79, 70, 229, 0.7); }
-            100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(79, 70, 229, 0.9); }
-        }
-        
-        .glow-title {
-            text-shadow: 0 0 15px #fff, 0 0 30px var(--primary), 0 0 45px var(--primary);
-            animation: glow 1.5s infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #fff, 0 0 20px var(--primary); }
-            to { text-shadow: 0 0 20px #fff, 0 0 40px var(--secondary); }
-        }
-        
-        .gradient-text {
-            background: linear-gradient(90deg, #8E2DE2, #4A00E0, #00CDAC);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 300% 300%;
-            animation: gradientMove 8s ease infinite;
-        }
-        
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .btn-primary {
-            position: relative;
-            display: inline-block;
-            padding: 12px 36px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 9999px;
-            background: linear-gradient(270deg, var(--primary), var(--secondary), #FF9068, var(--accent));
-            background-size: 800% 800%;
-            animation: gradientMove 8s ease infinite;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.6);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            overflow: hidden;
-        }
-        
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; right: -50%; bottom: -50%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.3), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .btn-primary:hover::before {
-            opacity: 1;
-        }
-        
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.8);
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .glass-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 205, 172, 0.3);
-        }
-        
-        .social-login-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .social-login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--darker), var(--dark));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 1s ease, visibility 1s ease;
-        }
-        
-        .splash-logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            animation: logoPulse 2s infinite alternate;
-        }
-        
-        @keyframes logoPulse {
-            0% { transform: scale(1); box-shadow: 0 0 40px rgba(142, 45, 226, 0.5); }
-            100% { transform: scale(1.1); box-shadow: 0 0 60px rgba(142, 45, 226, 0.8); }
-        }
-        
-        .splash-title {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, #8E2DE2, #4A00E0, #00CDAC);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 300% 300%;
-            animation: gradientMove 8s ease infinite;
-            margin-bottom: 20px;
-        }
-        
-        .splash-subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
-        }
-        
-        .progress-bar {
-            width: 300px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transition: width 2s ease;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TARBOO API Hub</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&display=swap');
+    :root { --primary: #4A00E0; --secondary: #8E2DE2; --accent: #00CDAC; --dark: #0F0A31; --darker: #090520; }
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif;}
+    body {background:linear-gradient(135deg,var(--darker),var(--dark));color:#fff;min-height:100vh;overflow-x:hidden;position:relative;}
+    body::before {content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+      background:radial-gradient(circle at 10% 20%,rgba(74,0,224,0.2) 0%,transparent 20%),
+        radial-gradient(circle at 90% 80%,rgba(142,45,226,0.2) 0%,transparent 20%),
+        radial-gradient(circle at 50% 50%,rgba(0,205,172,0.1) 0%,transparent 30%);z-index:-1;}
+    .splash-screen {position:fixed;width:100vw;height:100vh;background:var(--darker);color:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;}
+    .logo {width:150px;height:150px;border-radius:50%;object-fit:cover;border:5px solid rgba(255,255,255,0.1);box-shadow:0 0 30px rgba(79,70,229,0.7);margin-bottom:20px;animation:pulse 2s infinite alternate;}
+    @keyframes pulse {0%{transform:scale(1);box-shadow:0 0 30px rgba(79,70,229,0.7);}100%{transform:scale(1.05);box-shadow:0 0 50px rgba(79,70,229,0.9);}}
+    .glow-title {text-shadow:0 0 15px #fff,0 0 30px var(--primary),0 0 45px var(--primary);animation:glow 1.5s infinite alternate;}
+    @keyframes glow {from{text-shadow:0 0 10px #fff,0 0 20px var(--primary);}to{text-shadow:0 0 20px #fff,0 0 40px var(--secondary);}}
+    .gradient-text {background:linear-gradient(90deg,#8E2DE2,#4A00E0,#00CDAC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:300% 300%;animation:gradientMove 8s ease infinite;}
+    @keyframes gradientMove {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+    .btn-primary {position:relative;display:inline-block;padding:12px 36px;font-size:1rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;border:none;border-radius:9999px;background:linear-gradient(270deg,var(--primary),var(--secondary),#FF9068,var(--accent));background-size:800% 800%;animation:gradientMove 8s ease infinite;box-shadow:0 4px 15px rgba(79,70,229,0.6);transition:transform 0.3s ease,box-shadow 0.3s ease;cursor:pointer;overflow:hidden;}
+    .btn-primary::before {content:'';position:absolute;top:-50%;left:-50%;right:-50%;bottom:-50%;background:radial-gradient(circle at center,rgba(255,255,255,0.3),transparent 70%);opacity:0;transition:opacity 0.4s ease;}
+    .btn-primary:hover::before {opacity:1;}
+    .btn-primary:hover {transform:scale(1.05);box-shadow:0 6px 25px rgba(79,70,229,0.8);}
+    .glass-card {background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border-radius:16px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 32px rgba(0,0,0,0.3);transition:all 0.3s ease;}
+    .glass-card:hover {transform:translateY(-10px);box-shadow:0 12px 40px rgba(0,0,0,0.5);border-color:rgba(255,255,255,0.2);}
+    .api-type-btn {position:relative;display:block;padding:1.5rem;font-size:1.1rem;font-weight:700;text-align:center;color:#fff;text-decoration:none;border-radius:1rem;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);box-shadow:0 4px 20px rgba(0,0,0,0.5);overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;}
+    .api-type-btn::after {content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,rgba(74,0,224,0.5),rgba(142,45,226,0.5));background-size:200% 200%;animation:gradientMove 5s ease infinite;opacity:0;transition:opacity 0.4s ease;z-index:0;}
+    .api-type-btn:hover::after {opacity:1;}
+    .api-type-btn span {position:relative;z-index:1;}
+    .api-type-btn:hover {transform:scale(1.05);box-shadow:0 8px 30px rgba(59,130,246,0.7);}
+    .chat-container {background:rgba(255 255 255 / 0.1);backdrop-filter:blur(14px);border-radius:1rem;box-shadow:0 20px 30px rgba(0,0,0,0.7);color:white;}
+    .user-msg {background:linear-gradient(90deg,rgba(37,99,235,0.8),rgba(59,130,246,0.8));margin-left:auto;}
+    .bot-msg {background:rgba(31,41,55,0.8);margin-right:auto;}
+    .error-msg {background:rgba(185,28,28,0.8);margin-right:auto;}
+    .nav-link {position:relative;padding:0.5rem 1rem;transition:all 0.3s ease;}
+    .nav-link::after {content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.3s ease;}
+    .nav-link:hover::after {width:100%;}
+    .auth-container {max-width:500px;margin:5rem auto;padding:2rem;border-radius:20px;background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);box-shadow:0 15px 35px rgba(0,0,0,0.5);}
+    .auth-tabs {display:flex;margin-bottom:2rem;}
+    .auth-tab {flex:1;text-align:center;padding:1rem;cursor:pointer;transition:all 0.3s ease;position:relative;}
+    .auth-tab.active {background:rgba(74,0,224,0.2);}
+    .auth-tab.active::after {content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80%;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:3px;}
+    .form-input {width:100%;padding:0.75rem 1rem;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:white;transition:all 0.3s ease;}
+    .form-input:focus {outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,205,172,0.3);}
+    .api-card {background:rgba(255,255,255,0.05);border-radius:16px;overflow:hidden;transition:all 0.3s ease;border:1px solid rgba(255,255,255,0.1);}
+    .api-card:hover {transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.2);}
+    .api-card-img {height:180px;background:linear-gradient(45deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:3rem;}
+    @media (max-width: 768px) {
+      .logo {width:120px;height:120px;}
+      .auth-container {margin:2rem auto;width:90%;}
+      .auth-tabs {flex-direction:column;}
+    }
+  </style>
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div id="splash" class="splash-screen">
-        <div class="splash-logo">
-            <i class="fas fa-code text-white text-5xl"></i>
-        </div>
-        <h1 class="splash-title">TARBOO API</h1>
-        <p class="splash-subtitle">مرحباً بك في مركز واجهات برمجة التطبيقات</p>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-    </div>
+  <!-- Splash Screen -->
+  <div id="splash" class="splash-screen">
+    <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="logo">
+    <h1 class="text-4xl font-bold mb-4 glow-title">مرحبًا بك في TARBOO API 🚀</h1>
+    <button onclick="enterSite()" class="btn-primary"><span>دخول الموقع</span></button>
+  </div>
 
-    <!-- Main Content -->
-    <div class="min-h-screen flex flex-col items-center justify-center p-4">
-        <div class="text-center mb-10">
-            <div class="flex justify-center mb-6">
-                <div class="logo flex items-center justify-center">
-                    <i class="fas fa-code text-white text-3xl"></i>
-                </div>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">TARBOO API</h1>
-            <p class="text-xl text-gray-300 max-w-2xl">
-                منصة متكاملة لواجهات برمجة التطبيقات عالية الجودة لتطوير مشاريعك التقنية
-            </p>
-        </div>
-        
-        <div class="glass-card w-full max-w-md p-8">
-            <h2 class="text-2xl font-bold text-center mb-6">تسجيل الدخول إلى حسابك</h2>
-            
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label class="block mb-2 text-gray-300">البريد الإلكتروني</label>
-                    <input type="email" required class="form-input" placeholder="example@domain.com">
-                </div>
-                
-                <div>
-                    <label class="block mb-2 text-gray-300">كلمة المرور</label>
-                    <input type="password" required class="form-input" placeholder="••••••••">
-                </div>
-                
-                <button type="submit" class="btn-primary w-full py-3 mt-4">
-                    <i class="fas fa-sign-in-alt mr-2"></i>دخول
-                </button>
-                
-                <div class="text-center text-gray-400 my-4">أو</div>
-                
-                <div class="flex justify-center gap-4">
-                    <div class="social-login-btn bg-white">
-                        <i class="fab fa-google text-red-500 text-xl"></i>
-                    </div>
-                    <div class="social-login-btn bg-gray-800">
-                        <i class="fab fa-github text-white text-xl"></i>
-                    </div>
-                </div>
-            </form>
-            
-            <div class="mt-6 text-center">
-                <p class="text-gray-400">ليس لديك حساب؟ <a href="#" class="text-blue-400 hover:underline">إنشاء حساب جديد</a></p>
-            </div>
-            
-            <div id="login-message" class="mt-4 text-center"></div>
-        </div>
+  <!-- Navigation -->
+  <nav class="py-4 px-6 flex justify-between items-center">
+    <div class="flex items-center">
+      <img src="https://i.ibb.co/0jQ3ZzG/logo.png" alt="TARBOO Logo" class="w-12 h-12 rounded-full mr-3">
+      <h1 class="text-2xl font-bold gradient-text">TARBOO API</h1>
     </div>
+    <div class="hidden md:flex space-x-6">
+      <a href="#" class="nav-link" data-scroll="home">الرئيسية</a>
+      <a href="#features" class="nav-link" data-scroll="features">الميزات</a>
+      <a href="#apis" class="nav-link" data-scroll="apis">واجهات API</a>
+      <a href="#contact" class="nav-link" data-scroll="contact">تواصل معنا</a>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button id="auth-btn" class="text-sm bg-white/10 hover:bg-white/20 py-2 px-4 rounded-full transition">
+        <i class="fas fa-user mr-2"></i>تسجيل الدخول
+      </button>
+    </div>
+  </nav>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCrhxWtxRjeyCPGRUD3WAOCRS0yNqvq27E",
-            authDomain: "tarboo-api-914ea.firebaseapp.com",
-            projectId: "tarboo-api-914ea",
-            storageBucket: "tarboo-api-914ea.appspot.com",
-            messagingSenderId: "668697346516",
-            appId: "1:668697346516:web:243f646ae8998c2ce61641",
-            measurementId: "G-KCQ8HXQKJB"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        
-        // Splash screen animation
-        document.addEventListener('DOMContentLoaded', () => {
-            const progress = document.getElementById('progress');
-            let width = 0;
-            
-            const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    document.getElementById('splash').style.opacity = '0';
-                    document.getElementById('splash').style.visibility = 'hidden';
-                } else {
-                    width += 10;
-                    progress.style.width = `${width}%`;
-                }
-            }, 200);
+  <!-- Hero Section -->
+  <section class="py-20 px-6 text-center" id="home">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">
+        <span class="gradient-text">TARBOO API</span> مركز واجهات برمجة التطبيقات
+      </h1>
+      <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+        استكشف مجموعة واسعة من واجهات برمجة التطبيقات القوية التي توفر حلولاً متقدمة لمشاريعك التقنية
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <button class="btn-primary" id="scroll-to-apis">
+          <i class="fas fa-rocket mr-2"></i>ابدأ الآن
+        </button>
+        <button class="py-3 px-6 bg-white/10 hover:bg-white/20 rounded-full transition" id="docs-btn">
+          <i class="fas fa-book mr-2"></i>تصفح الوثائق
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- API Types Section -->
+  <section id="apis" class="py-16 px-6 bg-gradient-to-b from-transparent to-[#0f0a3180]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">أنواع واجهات API</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          اكتشف مجموعتنا المتنوعة من واجهات برمجة التطبيقات المصممة لتلبية احتياجات مشاريعك المختلفة
+        </p>
+      </div>
+      <div class="mb-8">
+        <div class="relative max-w-2xl mx-auto">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="ابحث عن API..."
+            class="w-full p-4 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 form-input"
+          >
+          <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-white/70"></i>
+        </div>
+      </div>
+      <div id="message" class="text-center text-gray-400 py-10">
+        <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+        <p>جارٍ تحميل البيانات...</p>
+      </div>
+      <div id="type-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">مميزات منصتنا</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          اكتشف لماذا يختار المطورون منصة TARBOO API لتطوير مشاريعهم
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass-card p-8">
+          <div class="w-16 h-16 rounded-full bg-[#4A00E0] flex items-center justify-center mb-6">
+            <i class="fas fa-bolt text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">أداء فائق السرعة</h3>
+          <p class="text-gray-300">
+            واجهات برمجة التطبيقات مصممة لتقديم استجابات فائقة السرعة مع زمن انتقال أقل من 50 مللي ثانية
+          </p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="w-16 h-16 rounded-full bg-[#8E2DE2] flex items-center justify-center mb-6">
+            <i class="fas fa-shield-alt text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">أمان متقدم</h3>
+          <p class="text-gray-300">
+            أنظمة حماية متعددة الطبقات تشمل تشفير البيانات والمصادقة متعددة العوامل
+          </p>
+        </div>
+        <div class="glass-card p-8">
+          <div class="w-16 h-16 rounded-full bg-[#00CDAC] flex items-center justify-center mb-6">
+            <i class="fas fa-sync-alt text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">تحديثات مستمرة</h3>
+          <p class="text-gray-300">
+            تحسينات وتحديثات مستمرة تضمن لك الحصول على أفضل تجربة وأحدث الميزات
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Authentication Modal -->
+  <div id="auth-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4 flex">
+    <div class="auth-container">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold gradient-text">مرحبًا بك في TARBOO</h2>
+        <button id="close-auth" class="text-2xl hover:text-red-400 transition">&times;</button>
+      </div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login">تسجيل الدخول</div>
+        <div class="auth-tab" data-tab="register">إنشاء حساب</div>
+      </div>
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label class="block mb-2 text-gray-300">البريد الإلكتروني</label>
+          <input type="email" required class="form-input" placeholder="example@domain.com">
+        </div>
+        <div>
+          <label class="block mb-2 text-gray-300">كلمة المرور</label>
+          <input type="password" required class="form-input" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary w-full py-3 mt-4">
+          <i class="fas fa-sign-in-alt mr-2"></i>دخول
+        </button>
+      </form>
+      <form id="register-form" class="space-y-4 hidden">
+        <div>
+          <label class="block mb-2 text-gray-300">البريد الإلكتروني</label>
+          <input type="email" required class="form-input" placeholder="example@domain.com">
+        </div>
+        <div>
+          <label class="block mb-2 text-gray-300">كلمة المرور</label>
+          <input type="password" required class="form-input" placeholder="••••••••">
+        </div>
+        <div>
+          <label class="block mb-2 text-gray-300">تأكيد كلمة المرور</label>
+          <input type="password" required class="form-input" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary w-full py-3 mt-4">
+          <i class="fas fa-user-plus mr-2"></i>إنشاء حساب
+        </button>
+      </form>
+      <!-- أزرار تسجيل Google/GitHub -->
+      <div class="flex flex-col space-y-2 mt-4">
+        <button type="button" class="btn-primary w-full py-3" id="google-sign">
+          <i class="fab fa-google mr-2"></i>الدخول بواسطة Google
+        </button>
+        <button type="button" class="btn-primary w-full py-3" id="github-sign" style="background:linear-gradient(90deg,#24292e,#6e5494)">
+          <i class="fab fa-github mr-2"></i>الدخول بواسطة GitHub
+        </button>
+      </div>
+      <div id="auth-message" class="mt-6 text-center"></div>
+    </div>
+  </div>
+
+  <!-- Footer ... أبقيه كما في كودك السابق ... -->
+
+  <!-- سكربتات الصفحة -->
+  <script>
+    // Splash
+    function enterSite() {
+      const splash = document.getElementById("splash");
+      gsap.to(splash, { opacity: 0, duration: 1, onComplete: () => { splash.style.display = "none"; } });
+    }
+    // Tabs
+    document.querySelectorAll('.auth-tab').forEach(tab=>{
+      tab.onclick = function(){
+        document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('login-form').classList.toggle('hidden',this.dataset.tab!=='login');
+        document.getElementById('register-form').classList.toggle('hidden',this.dataset.tab!=='register');
+        document.getElementById('auth-message').innerHTML = '';
+      }
+    });
+    document.getElementById('auth-btn').onclick = ()=>{
+      document.getElementById('auth-modal').classList.remove('hidden');
+    };
+    document.getElementById('close-auth').onclick = ()=>{
+      document.getElementById('auth-modal').classList.add('hidden');
+      document.getElementById('auth-message').innerHTML = '';
+    };
+    document.getElementById('auth-modal').addEventListener('click',function(e){
+      if(e.target === this) this.classList.add('hidden');
+    });
+  </script>
+
+  <!-- Firebase سكربت التسجيل الحقيقي -->
+  <script type="module">
+    import {
+      auth,
+      db,
+      signInWithPopup,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      GoogleAuthProvider,
+      GithubAuthProvider,
+      setDoc,
+      doc
+    } from './firebase-config.js';
+
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const authMessage = document.getElementById('auth-message');
+
+    loginForm.onsubmit = async (e) => {
+      e.preventDefault();
+      authMessage.innerHTML = "جارٍ التحقق...";
+      const email = loginForm[0].value, password = loginForm[1].value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        authMessage.innerHTML = '<span class="text-green-400">تم تسجيل الدخول بنجاح!</span>';
+        setTimeout(() => document.getElementById('auth-modal').classList.add('hidden'), 1000);
+      } catch (err) {
+        authMessage.innerHTML = `<span class="text-red-400">${firebaseErrorMsg(err.code)}</span>`;
+      }
+    };
+
+    registerForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = registerForm[0].value, password = registerForm[1].value, confirm = registerForm[2].value;
+      if(password !== confirm){
+        authMessage.innerHTML = '<span class="text-red-400">كلمات المرور غير متطابقة</span>';
+        return;
+      }
+      authMessage.innerHTML = "جارٍ إنشاء الحساب...";
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", userCred.user.uid), {
+          email: userCred.user.email,
+          createdAt: new Date().toISOString(),
+          provider: "email"
         });
-        
-        // Login form submission
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = e.target[0].value;
-            const password = e.target[1].value;
-            const message = document.getElementById('login-message');
-            
-            try {
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                
-                // Check if admin
-                if(email === "mahmoudtarboo09@gmail.com") {
-                    window.location.href = "admin-dashboard.html";
-                } else {
-                    window.location.href = "user-dashboard.html";
-                }
-            } catch (error) {
-                message.textContent = getAuthError(error.code);
-                message.className = 'text-center text-red-400';
-            }
-        });
-        
-        // Helper function to get authentication error messages
-        function getAuthError(code) {
-            const errors = {
-                'auth/invalid-email': 'بريد إلكتروني غير صالح',
-                'auth/user-not-found': 'الحساب غير موجود',
-                'auth/wrong-password': 'كلمة مرور خاطئة',
-                'auth/email-already-in-use': 'البريد الإلكتروني مستخدم بالفعل',
-                'auth/weak-password': 'كلمة المرور ضعيفة (6 أحرف على الأقل)'
-            };
-            return errors[code] || 'حدث خطأ غير متوقع';
-        }
-    </script>
+        authMessage.innerHTML = '<span class="text-green-400">تم إنشاء الحساب بنجاح!</span>';
+        setTimeout(() => document.getElementById('auth-modal').classList.add('hidden'), 1000);
+      } catch (err) {
+        authMessage.innerHTML = `<span class="text-red-400">${firebaseErrorMsg(err.code)}</span>`;
+      }
+    };
+
+    document.getElementById('google-sign').onclick = async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        await setDoc(doc(db, "users", result.user.uid), {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          provider: "google"
+        }, { merge: true });
+        authMessage.innerHTML = '<span class="text-green-400">تم الدخول عبر Google!</span>';
+        setTimeout(() => document.getElementById('auth-modal').classList.add('hidden'), 1000);
+      } catch (err) {
+        authMessage.innerHTML = `<span class="text-red-400">${firebaseErrorMsg(err.code)}</span>`;
+      }
+    };
+
+    document.getElementById('github-sign').onclick = async () => {
+      const provider = new GithubAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        await setDoc(doc(db, "users", result.user.uid), {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          provider: "github"
+        }, { merge: true });
+        authMessage.innerHTML = '<span class="text-green-400">تم الدخول عبر GitHub!</span>';
+        setTimeout(() => document.getElementById('auth-modal').classList.add('hidden'), 1000);
+      } catch (err) {
+        authMessage.innerHTML = `<span class="text-red-400">${firebaseErrorMsg(err.code)}</span>`;
+      }
+    };
+
+    function firebaseErrorMsg(code) {
+      const errors = {
+        "auth/email-already-in-use": "البريد الإلكتروني مستخدم بالفعل",
+        "auth/invalid-email": "بريد إلكتروني غير صحيح",
+        "auth/user-not-found": "الحساب غير موجود",
+        "auth/wrong-password": "كلمة مرور غير صحيحة",
+        "auth/weak-password": "كلمة المرور ضعيفة (6 أحرف على الأقل)",
+        "auth/popup-closed-by-user": "تم إغلاق النافذة بدون تسجيل دخول"
+      };
+      return errors[code] || "حدث خطأ غير متوقع (" + code + ")";
+    }
+  </script>
 </body>
 </html>
